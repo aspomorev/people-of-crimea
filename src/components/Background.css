@@ -1,0 +1,58 @@
+.app-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transform-origin: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  z-index: 2;
+}
+
+.cloud--top-left {
+  top: 0;
+  left: 0;
+}
+
+.cloud--top-right {
+  top: 0;
+  right: 0;
+}
+
+.cloud--bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.cloud--bottom-right {
+  right: 0;
+  bottom: 0;
+}
+
+.background-logos {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transform-origin: center;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+  pointer-events: none;
+}
+
+.main-logo-image {
+  height: 80px;
+}

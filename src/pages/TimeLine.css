@@ -1,0 +1,70 @@
+.timeline-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-panels-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-header-row {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  z-index: 2;
+}
+
+.timeline-back-button-slot {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(-24px, -50%);
+}
+
+.timeline-center-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.timeline-panels-row {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 36px;
+  padding: 0 36px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.timeline-panel {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: calc(1080px - 100px - 36px);
+  max-height: calc(1080px - 100px - 36px);
+  padding: 85px;
+  padding-right: 65px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.timeline-panel--left {
+  flex: 487 1 0;
+}
+
+.timeline-panel--right {
+  flex: 1505 1 0;
+}

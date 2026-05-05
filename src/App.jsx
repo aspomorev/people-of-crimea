@@ -2,12 +2,13 @@ import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import './App.css'
 import AboutPage from './pages/AboutPage'
 import Main from './pages/Main'
-import AppBackground from './components/AppBackground'
+import TimeLine from './pages/TimeLine'
+import Background from './components/Background'
 
 function App() {
   return (
     <div className="app-shell">
-      <AppBackground />
+      <Background />
       <div className="app">
       {/* <header className="app-header">
         <nav className="app-nav">
@@ -21,6 +22,7 @@ function App() {
       <main className="app-content">
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/timeline" element={<TimeLine />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

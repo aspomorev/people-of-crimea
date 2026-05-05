@@ -1,8 +1,3 @@
-const logoModules = import.meta.glob('../assets/logo/*', {
-  eager: true,
-  import: 'default',
-})
-
 import timelineDefault from '../assets/1-main-page/1. НЕАКТИВ Лента времени.png'
 import timelineActive from '../assets/1-main-page/1. АКТИВ Лента времени.png'
 import routesDefault from '../assets/1-main-page/2. НЕАКТИВ Маршруты народов Крыма.png'
@@ -15,8 +10,10 @@ import galleryDefault from '../assets/1-main-page/НЕАКТИВ галерея.
 import galleryActive from '../assets/1-main-page/АКТИВ галерея.png'
 import contactsDefault from '../assets/1-main-page/НЕАКТИВ контакты.png'
 import contactsActive from '../assets/1-main-page/АКТИВ Контакты.png'
+import centerImage from '../assets/background/Этнокультурный код Крыма.png'
+import { useNavigate } from 'react-router-dom'
+import './Main.css'
 
-const logos = Object.values(logoModules)
 const menuButtons = [
   { id: 1, defaultSrc: timelineDefault, activeSrc: timelineActive },
   { id: 2, defaultSrc: routesDefault, activeSrc: routesActive },
@@ -30,28 +27,36 @@ const secondaryMenuButtons = [
 ]
 
 function Main() {
+  const navigate = useNavigate()
+
+  const handleMainMenuClick = (buttonId) => {
+    if (buttonId === 1) {
+      navigate('/timeline')
+    }
+  }
+
   return (
     <div className="main-page">
-      <div className="main-logos">
-        {logos.map((logoSrc) => (
-          <img key={logoSrc} src={logoSrc} alt="logo" className="main-logo-image" />
-        ))}
-      </div>
-
-      <div className="main-menu-center">
+      <img src={centerImage} alt="" className="title" />
+      <div className="menu-buttons">
         {menuButtons.map((button) => (
-          <button key={button.id} type="button" className="main-menu-button">
-            <img src={button.defaultSrc} alt="" className="main-menu-image main-menu-image--default" />
-            <img src={button.activeSrc} alt="" className="main-menu-image main-menu-image--active" />
+          <button
+            key={button.id}
+            type="button"
+            className="menu-button"
+            onClick={() => handleMainMenuClick(button.id)}
+          >
+            <img src={button.defaultSrc} alt="" className="main-menu-image image-default" />
+            <img src={button.activeSrc} alt="" className="main-menu-image image-active" />
           </button>
         ))}
       </div>
 
-      <div className="main-submenu-center">
+      <div className="submenu-buttons">
         {secondaryMenuButtons.map((button) => (
-          <button key={button.id} type="button" className="main-menu-button">
-            <img src={button.defaultSrc} alt="" className="main-menu-image main-menu-image--default" />
-            <img src={button.activeSrc} alt="" className="main-menu-image main-menu-image--active" />
+          <button key={button.id} type="button" className="menu-button">
+            <img src={button.defaultSrc} alt="" className="main-menu-image image-default" />
+            <img src={button.activeSrc} alt="" className="main-menu-image image-active" />
           </button>
         ))}
       </div>
