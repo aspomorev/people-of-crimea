@@ -1,19 +1,24 @@
 .route-plate {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 250px;
   height: 230px;
+  margin: 25px;
 }
 
 .route-plate-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
   font-size: 20pt;
   text-align: center;
-  padding-top: 15px;
+  padding-top: 25px;
+  line-height: 1;
 }
 
 .route-plate-actions {
@@ -38,12 +43,4 @@
 .route-plate-action-button:hover,
 .route-plate-action-button:focus-visible {
   text-decoration: underline;
-}
-
-.route-plate-img {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 230px;
-  margin: 0 auto;
 }

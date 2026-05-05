@@ -1,10 +1,9 @@
-import routeButtonImage from '../assets/3-routes/плашка.png'
 import './RoutePlate.css'
 
 function RoutePlate({ id, name, imageSrc }) {
   return (
-    <div className="route-plate" style={{ backgroundImage: `url("${routeButtonImage}")` }}>
-      <div className="route-plate-name">{name.toUpperCase()}</div>
+    <div className="route-plate" style={{ backgroundImage: `url("${imageSrc}")` }}>
+      <div className="route-plate-name"><div>{name.toUpperCase()}</div></div>
       <div className="route-plate-actions">
         <button type="button" className="route-plate-action-button">
           МАРШРУТ
@@ -13,7 +12,6 @@ function RoutePlate({ id, name, imageSrc }) {
           ИСТОРИЯ
         </button>
       </div>
-      <img src={imageSrc} alt={name.toUpperCase()} className="route-plate-img" />
     </div>
   )
 }
