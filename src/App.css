@@ -2,7 +2,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  --scale: min(calc(100vw / 1920px), calc(100vh / 1080px));
+  --scale: min(1, calc(100vw / 1920px), calc(100vh / 1080px));
   overflow: hidden;
 }
 

@@ -1,14 +1,19 @@
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import AboutPage from './pages/AboutPage'
 import Main from './pages/Main'
+import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
-import Background from './components/Background'
+import Background, { BACKGROUND_TYPE } from './components/Background'
 
 function App() {
+  const { pathname } = useLocation()
+  const backgroundType = pathname === '/routes' ? BACKGROUND_TYPE.BLURED : BACKGROUND_TYPE.DEFAULT
+  const showClouds = pathname !== '/routes'
+
   return (
     <div className="app-shell">
-      <Background />
+      <Background backgroundType={backgroundType} showClouds={showClouds} />
       <div className="app">
       {/* <header className="app-header">
         <nav className="app-nav">
@@ -23,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/timeline" element={<TimeLine />} />
+          <Route path="/routes" element={<RoutesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

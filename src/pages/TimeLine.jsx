@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './TimeLine.css'
-import BackButton from '../components/BackButton'
 import PanelScroll from '../components/PanelScroll'
+import PageTitle from '../components/PageTitle'
 import parchmentBackground from '../assets/Фон пергамент.png'
 import timelineCenterImage from '../assets/2-timeline/свиток ленты.png'
 
@@ -41,14 +41,7 @@ function TimeLine() {
   return (
     <section className="timeline-page">
       <div className="timeline-panels-wrap">
-        <div className="timeline-header-row">
-          <div className="timeline-back-button-slot">
-            <BackButton />
-          </div>
-          {timelineCenterImage ? (
-            <img src={timelineCenterImage} alt="Timeline" className="timeline-center-image" />
-          ) : null}
-        </div>
+        <PageTitle imageSrc={timelineCenterImage} imageAlt="Timeline" />
         <div className="timeline-panels-row">
           <div
             className="timeline-panel timeline-panel--left"

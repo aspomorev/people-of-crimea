@@ -32,7 +32,18 @@ function Main() {
   const handleMainMenuClick = (buttonId) => {
     if (buttonId === 'timeline') {
       navigate('/timeline')
+    } else if (buttonId === 'routes') {
+      navigate('/routes')
     }
+    // else if (buttonId === 'modern') {
+    //   navigate('/modern')
+    // } else if (buttonId === 'about') {
+    //   navigate('/about')
+    // } else if (buttonId === 'gallery') {
+    //   navigate('/gallery')
+    // } else if (buttonId === 'contacts') {
+    //   navigate('/contacts')
+    // }
   }
 
   return (

@@ -11,30 +11,6 @@
   height: 100%;
 }
 
-.timeline-header-row {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: fit-content;
-  z-index: 2;
-}
-
-.timeline-back-button-slot {
-  position: absolute;
-  right: 100%;
-  top: 50%;
-  transform: translate(-24px, -50%);
-}
-
-.timeline-center-image {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-}
-
 .timeline-panels-row {
   position: absolute;
   top: 100px;

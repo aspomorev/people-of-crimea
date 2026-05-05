@@ -1,0 +1,23 @@
+.page-title {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  z-index: 2;
+}
+
+.page-title-back {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(-24px, -50%);
+}
+
+.page-title-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}

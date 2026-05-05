@@ -1,0 +1,49 @@
+.route-plate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 250px;
+  height: 230px;
+}
+
+.route-plate-name {
+  font-size: 20pt;
+  text-align: center;
+  padding-top: 15px;
+}
+
+.route-plate-actions {
+  padding: 0 20px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13pt;
+}
+
+.route-plate-action-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.route-plate-action-button:hover,
+.route-plate-action-button:focus-visible {
+  text-decoration: underline;
+}
+
+.route-plate-img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 230px;
+  margin: 0 auto;
+}
