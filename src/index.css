@@ -13,6 +13,7 @@ body {
   margin: 0;
   font-family: 'Tenor Sans', Arial, Helvetica, sans-serif;
   font-size: 20pt;
+  font-weight: bold;
   background-color: #0f172a;
   color: #72462a;
   overflow: hidden;

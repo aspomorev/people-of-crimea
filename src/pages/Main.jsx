@@ -15,9 +15,9 @@ import { useNavigate } from 'react-router-dom'
 import './Main.css'
 
 const menuButtons = [
-  { id: 1, defaultSrc: timelineDefault, activeSrc: timelineActive },
-  { id: 2, defaultSrc: routesDefault, activeSrc: routesActive },
-  { id: 3, defaultSrc: modernDefault, activeSrc: modernActive },
+  { id: 'timeline', defaultSrc: timelineDefault, activeSrc: timelineActive },
+  { id: 'routes', defaultSrc: routesDefault, activeSrc: routesActive },
+  { id: 'modern', defaultSrc: modernDefault, activeSrc: modernActive },
 ]
 
 const secondaryMenuButtons = [
@@ -30,7 +30,7 @@ function Main() {
   const navigate = useNavigate()
 
   const handleMainMenuClick = (buttonId) => {
-    if (buttonId === 1) {
+    if (buttonId === 'timeline') {
       navigate('/timeline')
     }
   }

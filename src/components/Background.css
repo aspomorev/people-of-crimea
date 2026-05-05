@@ -48,7 +48,8 @@
   z-index: 2;
   display: flex;
   flex-wrap: wrap;
-  padding: 20px;
+  padding-left: 36px;
+  padding-top: 18px;
   gap: 20px;
   pointer-events: none;
 }

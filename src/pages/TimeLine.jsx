@@ -1,10 +1,43 @@
+import { useState } from 'react'
 import './TimeLine.css'
 import BackButton from '../components/BackButton'
 import PanelScroll from '../components/PanelScroll'
 import parchmentBackground from '../assets/Фон пергамент.png'
 import timelineCenterImage from '../assets/2-timeline/свиток ленты.png'
 
+const ageImageModules = import.meta.glob('../assets/2-timeline/ages/*.{png,jpg,jpeg,webp,svg,gif}', {
+  eager: true,
+  import: 'default',
+})
+
+const ageHtmlModules = import.meta.glob('../assets/2-timeline/ages/*.html', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+})
+
+const ageImages = Object.entries(ageImageModules)
+  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
+  .map(([path, src]) => ({
+    src,
+    name: path.split('/').pop()?.replace(/\.[^/.]+$/, '') ?? 'age',
+  }))
+
+const ageHtmlByNumber = Object.entries(ageHtmlModules).reduce((acc, [path, html]) => {
+  const fileName = path.split('/').pop() ?? ''
+  const number = fileName.match(/^(\d+)/)?.[1]
+  if (number) {
+    acc[number] = html
+  }
+  return acc
+}, {})
+
 function TimeLine() {
+  const [activeAgeImage, setActiveAgeImage] = useState(ageImages[0]?.src ?? null)
+  const activeAge = ageImages.find((image) => image.src === activeAgeImage)
+  const activeAgeNumber = activeAge?.name.match(/^(\d+)/)?.[1]
+  const activeAgeHtml = activeAgeNumber ? ageHtmlByNumber[activeAgeNumber] : ''
+
   return (
     <section className="timeline-page">
       <div className="timeline-panels-wrap">
@@ -21,21 +54,34 @@ function TimeLine() {
             className="timeline-panel timeline-panel--left"
             style={{ backgroundImage: `url("${parchmentBackground}")` }}
           >
-            <PanelScroll />
+            <p>Выберите эпоху</p>
+            <div className="timeline-ages-list">
+              {ageImages.map((image) => (
+                <div
+                  key={image.src}
+                  className={`timeline-age-item${activeAgeImage === image.src ? ' timeline-age-item--active' : ''}`}
+                >
+                  <span className="timeline-age-dot" aria-hidden="true" />
+                  <img
+                    src={image.src}
+                    alt={image.name}
+                    className={`timeline-age-image${activeAgeImage === image.src ? ' timeline-age-image--active' : ''}`}
+                    onClick={() => setActiveAgeImage(image.src)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div
             className="timeline-panel timeline-panel--right"
             style={{ backgroundImage: `url("${parchmentBackground}")` }}
           >
             <PanelScroll>
-              В начале I тысячелетия до н.э. в Крыму жили народы, названия которых сохранились в письменных источниках степь населяли кочевники, именуемые, как полагают многие современные исследователи, киммерийцами.
-
-              Впервые они упоминаются в «Одиссее» Гомера: «Скоро пришли мы к глубокотекущим водам Океана; Там киммериян печальная область, покрытая вечно Влажным туманом и мглой облаков;…» (перевод В. А. Жуковского). Керченский пролив, разделяющий Крым и Кавказ, исследователь Геродот, как и другие античные авторы, называет Боспор Киммерийский. Рядом с ним находились киммерийские укрепления, переправы и область Киммерия.
-              Твердо можно считать, что киммерийцы были кочевниками, которые на протяжении приблизительно семидесяти лет (в конце VIII – первой половине VII в. до н.э.), грабили древневосточные государства. Многие предметы вооружения и украшения скифов изготовлены из железа и бронзы, их до сих пор находят на территориях различных курганов (мест погребения).
-
-              К VIII в. до н.э. в предгорном Крыму сформировался новый этнос, который эллины позже назвали таврами. В VI в. до н.э. часть тавров, по-видимому, переселилась на Главную гряду Крымских гор и Южный берег. Археологические памятники тавров были найдены там в одном поселении. Оно расположено на горе Кошка возле Симеиза, там находится множество могильников, которые представляют собой каменные ящики. Вместе с погребенными обычно хоронили различные вещи.
-
-              Геродот так описывал тавров: «Они имеют следующие обычаи. Приносят в жертву Деве и потерпевших кораблекрушения, и тех эллинов, которых они захватят, выплыв в море, таким образом: совершив предварительные обряды, они ударяют их дубиной по голове… Сами тавры говорят, что божество, которому приносят жертвы, – это Ифигения, дочь Агамемнона… Живут же они награбленной добычей и войной». Тавры, если судить по археологическим данным, занимались скотоводством, и, если верить сведениям античных авторов, пиратством.
+              {activeAgeHtml ? (
+                <div dangerouslySetInnerHTML={{ __html: activeAgeHtml }} />
+              ) : (
+                'Контент для выбранной эпохи не найден.'
+              )}
             </PanelScroll>
           </div>
         </div>

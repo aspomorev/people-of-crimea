@@ -23,14 +23,30 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 2px;
+  width: 5px;
   height: 100%;
-  background: #c00000;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 50px,
+    #4f3522 50px,
+    #4f3522 calc(100% - 50px),
+    transparent calc(100% - 50px),
+    transparent 100%
+  );
+  cursor: pointer;
 }
 
 .timeline-panel-scroll-thumb {
-  width: 18px;
-  background: #1d4ed8;
+  position: absolute;
+  left: 50%;
+  width: 13px;
+  background: #72462a;
   border-radius: 0;
-  transform: translateX(-8px);
+  transform: translateX(-50%);
+  cursor: grab;
+}
+
+.timeline-panel-scroll-thumb:active {
+  cursor: grabbing;
 }
