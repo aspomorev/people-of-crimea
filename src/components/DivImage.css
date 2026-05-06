@@ -1,0 +1,6 @@
+.div-image {
+  position: absolute;
+  display: block;
+  background-position: center;
+  background-size: cover;
+}

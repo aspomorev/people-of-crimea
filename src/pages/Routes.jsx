@@ -1,7 +1,11 @@
 import PageTitle from '../components/PageTitle'
 import RoutePlate from '../components/RoutePlate'
+import DivImage from '../components/DivImage'
 import routesTitleImage from '../assets/3-routes/Название Маршруты народов Крыма.png'
 import routesParchmentBg from '../assets/3-routes/Фон пергамент.png'
+import mapImage from '../assets/3-routes/Карта Крыма.png'
+import studentImage from '../assets/3-routes/студентка РЭУ.png'
+import textPlateImage from '../assets/3-routes/плашка текст.png'
 import './Routes.css'
 
 const routeImages = import.meta.glob('../assets/3-routes/peoples/*', {
@@ -30,11 +34,19 @@ function Routes() {
   return (
     <section className="routes-page">
       <PageTitle imageSrc={routesTitleImage} imageAlt="Маршруты народов Крыма" />
-      <div className="routes-background" style={{ backgroundImage: `url("${routesParchmentBg}")` }}>
-        {routesData.map((routeItem) => (
-          <RoutePlate key={routeItem.id} id={routeItem.id} name={routeItem.name} imageSrc={routeItem.imageSrc} />
-        ))}
-      </div>
+      <DivImage src={routesParchmentBg} className="routes-background">
+          <img src={mapImage} alt="Карта Крыма" className="routes-map-image" />
+          <img src={studentImage} className="routes-student-image" />
+          <div className="routes-text-plate">
+            <img src={textPlateImage} alt="" aria-hidden="true" className="routes-text-plate-probe" />
+            <div className="routes-text-plate-content"></div>
+          </div>
+          <div className="routes-plates">
+            {routesData.map((routeItem) => (
+              <RoutePlate key={routeItem.id} id={routeItem.id} name={routeItem.name} imageSrc={routeItem.imageSrc} />
+            ))}
+          </div>
+      </DivImage>
     </section>
   )
 }

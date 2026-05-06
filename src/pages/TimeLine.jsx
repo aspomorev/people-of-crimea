@@ -43,7 +43,7 @@ function TimeLine() {
       <div className="timeline-panels-wrap">
         <PageTitle imageSrc={timelineCenterImage} imageAlt="Timeline" />
         <div className="timeline-panels-row">
-          <div
+          <div 
             className="timeline-panel timeline-panel--left"
             style={{ backgroundImage: `url("${parchmentBackground}")` }}
           >
