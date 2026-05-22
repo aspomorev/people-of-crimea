@@ -1,8 +1,9 @@
 import PageTitle from '../components/PageTitle'
 import RoutePlate from '../components/RoutePlate'
 import DivImage from '../components/DivImage'
+import Absolute from '../components/Absolute'
 import routesTitleImage from '../assets/3-routes/Название Маршруты народов Крыма.png'
-import routesParchmentBg from '../assets/3-routes/Фон пергамент.png'
+import routesParchmentBg from '../assets/Фон пергамент.png'
 import mapImage from '../assets/3-routes/Карта Крыма.png'
 import studentImage from '../assets/3-routes/студентка РЭУ.png'
 import textPlateImage from '../assets/3-routes/плашка текст.png'
@@ -34,18 +35,21 @@ function Routes() {
   return (
     <section className="routes-page">
       <PageTitle imageSrc={routesTitleImage} imageAlt="Маршруты народов Крыма" />
-      <DivImage src={routesParchmentBg} className="routes-background">
-          <img src={mapImage} alt="Карта Крыма" className="routes-map-image" />
-          <img src={studentImage} className="routes-student-image" />
-          <div className="routes-text-plate">
-            <img src={textPlateImage} alt="" aria-hidden="true" className="routes-text-plate-probe" />
-            <div className="routes-text-plate-content"></div>
-          </div>
-          <div className="routes-plates">
-            {routesData.map((routeItem) => (
-              <RoutePlate key={routeItem.id} id={routeItem.id} name={routeItem.name} imageSrc={routeItem.imageSrc} />
-            ))}
-          </div>
+      <DivImage src={routesParchmentBg} className="routes-background" width={1637} height={958}>
+        <Absolute top={150} left={40}>
+          <img src={mapImage} alt="Карта Крыма" />
+        </Absolute>
+        <DivImage src={textPlateImage} className="routes-text-plate" bottom={40} left={75}>
+          Привет! Меня зовут Надя. Я - студентка Российского экономического университета им. Г. В. Плеханова. Слышишь? Это песнь ветра и шум прибоя. Крым зовет нас!  Давай познакомимся с его историей! Выбери народ, о котором хочешь узнать больше.
+        </DivImage>
+        <Absolute bottom={0} left={895}>
+          <img src={studentImage} alt="" />
+        </Absolute>
+        <div className="routes-plates">
+          {routesData.map((routeItem) => (
+            <RoutePlate key={routeItem.id} id={routeItem.id} name={routeItem.name} imageSrc={routeItem.imageSrc} />
+          ))}
+        </div>
       </DivImage>
     </section>
   )

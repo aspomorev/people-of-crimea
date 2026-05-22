@@ -1,0 +1,28 @@
+.concrete-history-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.concrete-history-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.concrete-history-panel {
+  position: absolute;
+  top: 100px;
+  left: 36px;
+  right: 36px;
+  height: calc(1080px - 100px - 36px);
+  max-height: calc(1080px - 100px - 36px);
+  box-sizing: border-box;
+  overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 85px;
+  padding-right: 65px;
+}

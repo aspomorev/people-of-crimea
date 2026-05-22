@@ -4,44 +4,25 @@
   height: 100%;
 }
 
+.routes-page .page-title {
+  z-index: 10;
+}
+
 .routes-background {
+  position: absolute;
   margin: 100px 140px 24px 140px;
   padding-right: 60px;
   padding-bottom: 24px;
-}
-
-.routes-map-image {
-  position: absolute;
-  top: 150px;
-  left: 40px;
-  z-index: 1;
-}
-
-.routes-student-image {
-  position: absolute;
-  bottom: 0px;
-  left: 895px;
-  z-index: 1;
+  background-position: center;
 }
 
 .routes-text-plate {
-  position: absolute;
-  left: 540px;
-  bottom: 40px;
-  z-index: 2;
+  padding: 30px 56px;
+  font-size: 15pt;
+  line-height: 1.1;
+  font-weight: normal;
 }
 
-.routes-text-plate-probe {
-  display: block;
-  width: auto;
-  height: auto;
-}
-
-.routes-text-plate-content {
-  position: absolute;
-  inset: 0;
-  padding: 24px;
-}
 
 .routes-plates {
   position: relative;

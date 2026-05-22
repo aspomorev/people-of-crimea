@@ -4,12 +4,14 @@ import AboutPage from './pages/AboutPage'
 import Main from './pages/Main'
 import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
+import ConcreteHistory from './pages/ConcreteHistory'
 import Background, { BACKGROUND_TYPE } from './components/Background'
 
 function App() {
   const { pathname } = useLocation()
-  const backgroundType = pathname === '/routes' ? BACKGROUND_TYPE.BLURED : BACKGROUND_TYPE.DEFAULT
-  const showClouds = pathname !== '/routes'
+  const isRoutesLikePage = pathname === '/routes' || pathname.startsWith('/concrete-history/')
+  const backgroundType = isRoutesLikePage ? BACKGROUND_TYPE.BLURED : BACKGROUND_TYPE.DEFAULT
+  const showClouds = !isRoutesLikePage
 
   return (
     <div className="app-shell">
@@ -29,6 +31,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/timeline" element={<TimeLine />} />
           <Route path="/routes" element={<RoutesPage />} />
+          <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

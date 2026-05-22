@@ -11,6 +11,7 @@ import galleryActive from '../assets/1-main-page/АКТИВ галерея.png'
 import contactsDefault from '../assets/1-main-page/НЕАКТИВ контакты.png'
 import contactsActive from '../assets/1-main-page/АКТИВ Контакты.png'
 import centerImage from '../assets/background/Этнокультурный код Крыма.png'
+import Absolute from '../components/Absolute'
 import { useNavigate } from 'react-router-dom'
 import './Main.css'
 
@@ -48,7 +49,9 @@ function Main() {
 
   return (
     <div className="main-page">
-      <img src={centerImage} alt="" className="title" />
+      <Absolute className="title" left="50%">
+        <img src={centerImage} alt="" />
+      </Absolute>
       <div className="menu-buttons">
         {menuButtons.map((button) => (
           <button

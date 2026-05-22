@@ -13,28 +13,7 @@
 }
 
 .cloud {
-  position: absolute;
   z-index: 2;
-}
-
-.cloud--top-left {
-  top: 0;
-  left: 0;
-}
-
-.cloud--top-right {
-  top: 0;
-  right: 0;
-}
-
-.cloud--bottom-left {
-  bottom: 0;
-  left: 0;
-}
-
-.cloud--bottom-right {
-  right: 0;
-  bottom: 0;
 }
 
 .background-logos {

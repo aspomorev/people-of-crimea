@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import './RoutePlate.css'
 
 function RoutePlate({ id, name, imageSrc }) {
+  const navigate = useNavigate()
   return (
     <div className="route-plate" style={{ backgroundImage: `url("${imageSrc}")` }}>
       <div className="route-plate-name"><div>{name.toUpperCase()}</div></div>
@@ -8,7 +10,11 @@ function RoutePlate({ id, name, imageSrc }) {
         <button type="button" className="route-plate-action-button">
           МАРШРУТ
         </button>
-        <button type="button" className="route-plate-action-button">
+        <button
+          type="button"
+          className="route-plate-action-button"
+          onClick={() => navigate(`/concrete-history/${encodeURIComponent(name)}`)}
+        >
           ИСТОРИЯ
         </button>
       </div>
