@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './TimeLine.css'
 import PanelScroll from '../components/PanelScroll'
 import PageTitle from '../components/PageTitle'
+import DivImage from '../components/DivImage'
 import parchmentBackground from '../assets/Фон пергамент.png'
 import timelineCenterImage from '../assets/2-timeline/свиток ленты.png'
 
@@ -43,9 +44,12 @@ function TimeLine() {
       <div className="timeline-panels-wrap">
         <PageTitle imageSrc={timelineCenterImage} imageAlt="Timeline" />
         <div className="timeline-panels-row">
-          <div 
+          <DivImage
+            src={parchmentBackground}
             className="timeline-panel timeline-panel--left"
-            style={{ backgroundImage: `url("${parchmentBackground}")` }}
+            width="100%"
+            height="100%"
+            style={{ backgroundSize: '100% 100%' }}
           >
             <p>Выберите эпоху</p>
             <div className="timeline-ages-list">
@@ -64,10 +68,13 @@ function TimeLine() {
                 </div>
               ))}
             </div>
-          </div>
-          <div
+          </DivImage>
+          <DivImage
+            src={parchmentBackground}
             className="timeline-panel timeline-panel--right"
-            style={{ backgroundImage: `url("${parchmentBackground}")` }}
+            width="100%"
+            height="100%"
+            style={{ backgroundSize: '100% 100%' }}
           >
             <PanelScroll>
               {activeAgeHtml ? (
@@ -76,7 +83,7 @@ function TimeLine() {
                 'Контент для выбранной эпохи не найден.'
               )}
             </PanelScroll>
-          </div>
+          </DivImage>
         </div>
       </div>
     </section>

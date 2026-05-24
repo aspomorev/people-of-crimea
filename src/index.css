@@ -11,7 +11,7 @@ body,
 
 body {
   margin: 0;
-  font-family: 'Tenor Sans', Arial, Helvetica, sans-serif;
+  font-family: "Tenor Sans", Arial, Helvetica, sans-serif;
   font-size: 20pt;
   font-weight: bold;
   background-color: #0f172a;
@@ -21,4 +21,11 @@ body {
 
 p {
   line-height: 1.5;
+}
+
+@font-face {
+  font-family: "Constantia";
+  src: url("./fonts/Constantia.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
 }

@@ -26,13 +26,12 @@
 }
 
 .timeline-panel {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
   height: calc(1080px - 100px - 36px);
   max-height: calc(1080px - 100px - 36px);
   box-sizing: border-box;
   overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .timeline-panel--left {

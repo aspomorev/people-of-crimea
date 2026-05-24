@@ -7,7 +7,7 @@ function RoutePlate({ id, name, imageSrc }) {
     <div className="route-plate" style={{ backgroundImage: `url("${imageSrc}")` }}>
       <div className="route-plate-name"><div>{name.toUpperCase()}</div></div>
       <div className="route-plate-actions">
-        <button type="button" className="route-plate-action-button">
+        <button type="button" className="route-plate-action-button" onClick={() => navigate(`/concrete-route-map/${encodeURIComponent(name)}`)}>
           МАРШРУТ
         </button>
         <button

@@ -6,6 +6,7 @@ import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
 import ConcreteHistory from './pages/ConcreteHistory'
 import Background, { BACKGROUND_TYPE } from './components/Background'
+import ConcreteRouteMap from './pages/ConcreteRouteMap'
 
 function App() {
   const { pathname } = useLocation()
@@ -32,6 +33,7 @@ function App() {
           <Route path="/timeline" element={<TimeLine />} />
           <Route path="/routes" element={<RoutesPage />} />
           <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
+          <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
