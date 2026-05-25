@@ -1,6 +1,5 @@
-import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { matchPath, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
-import AboutPage from './pages/AboutPage'
 import Main from './pages/Main'
 import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
@@ -10,34 +9,37 @@ import ConcreteRouteMap from './pages/ConcreteRouteMap'
 
 function App() {
   const { pathname } = useLocation()
-  const isRoutesLikePage = pathname === '/routes' || pathname.startsWith('/concrete-history/')
-  const backgroundType = isRoutesLikePage ? BACKGROUND_TYPE.BLURED : BACKGROUND_TYPE.DEFAULT
-  const showClouds = !isRoutesLikePage
+
+  const backgroundRoutes = [
+    { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: false },
+    { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
+    { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
+  ]
+
+  const backgroundConfig = backgroundRoutes.find(({ path }) =>
+    matchPath({ path, end: path === '/' }, pathname),
+  )
 
   return (
     <div className="app-shell">
-      <Background backgroundType={backgroundType} showClouds={showClouds} />
+      <Background
+        backgroundType={backgroundConfig?.backgroundType}
+        showClouds={backgroundConfig?.showClouds}
+        showLogos={backgroundConfig?.showLogos}
+      />
       <div className="app">
-      {/* <header className="app-header">
-        <nav className="app-nav">
-          <NavLink to="/" end>
-            Главная
-          </NavLink>
-          <NavLink to="/about">О проекте</NavLink>
-        </nav>
-      </header> */}
-
-      <main className="app-content">
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/timeline" element={<TimeLine />} />
-          <Route path="/routes" element={<RoutesPage />} />
-          <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
-          <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/timeline" element={<TimeLine />} />
+            <Route path="/routes" element={<RoutesPage />} />
+            <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
+            <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
       </div>
     </div>
   )

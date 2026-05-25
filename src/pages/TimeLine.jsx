@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './TimeLine.css'
 import PanelScroll from '../components/PanelScroll'
-import PageTitle from '../components/PageTitle'
+import PageImageTitle from '../components/PageImageTitle'
 import DivImage from '../components/DivImage'
 import parchmentBackground from '../assets/Фон пергамент.png'
 import timelineCenterImage from '../assets/2-timeline/свиток ленты.png'
@@ -42,7 +42,7 @@ function TimeLine() {
   return (
     <section className="timeline-page">
       <div className="timeline-panels-wrap">
-        <PageTitle imageSrc={timelineCenterImage} imageAlt="Timeline" />
+        <PageImageTitle imageSrc={timelineCenterImage} />
         <div className="timeline-panels-row">
           <DivImage
             src={parchmentBackground}
