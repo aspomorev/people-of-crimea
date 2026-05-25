@@ -6,7 +6,6 @@ import cloudImage1 from "../assets/background/облако верхнее лев
 import cloudImage2 from "../assets/background/облако верхнее правое.png";
 import cloudImage3 from "../assets/background/облако нижнее левое.png";
 import cloudImage4 from "../assets/background/облако нижнее правое.png";
-import DivImage from "./DivImage";
 import parchmentBackground from "../assets/Фон пергамент.png";
 import { useMemo } from "react";
 import AbsoluteImage from "./AbsoluteImage";
@@ -42,7 +41,12 @@ function Background({
 
   return (
     <div className="background-content">
-      <AbsoluteImage src={backgroundImage} className="background-image" width={1920} height={1080} />
+      <AbsoluteImage
+        src={backgroundImage}
+        className={`background-image${backgroundType === BACKGROUND_TYPE.PARCHMENT ? ' background-image_parchment' : ''}`}
+        width={1920}
+        height={1080}
+      />
       {showClouds ? (
         <>
           <AbsoluteImage src={cloudImage1} className="cloud" top={0} left={0} />

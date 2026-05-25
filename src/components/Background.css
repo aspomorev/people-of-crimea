@@ -10,6 +10,11 @@
   overflow: hidden;
 }
 
+.background-image.background-image_parchment {
+  position: relative;
+  z-index: 20;
+}
+
 .cloud {
   z-index: 10;
 }
