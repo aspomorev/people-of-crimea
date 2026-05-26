@@ -4,6 +4,7 @@ import Main from './pages/Main'
 import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
 import ConcreteHistory from './pages/ConcreteHistory'
+import ConcreteHistoryChapter from './pages/ConcreteHistoryChapter'
 import Background, { BACKGROUND_TYPE } from './components/Background'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
 import ConcreteRouteCity from './pages/ConcreteRouteCity'
@@ -17,6 +18,7 @@ function App() {
     { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
     { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/concrete-history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 
@@ -39,6 +41,7 @@ function App() {
             <Route path="/timeline" element={<TimeLine />} />
             <Route path="/routes" element={<RoutesPage />} />
             <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
+            <Route path="/concrete-history/:people/:title" element={<ConcreteHistoryChapter />} />
             <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
             <Route path="/concrete-route-map/:people/:city" element={<ConcreteRouteCity />} />
             <Route path="*" element={<Navigate to="/" replace />} />

@@ -5,8 +5,10 @@
 }
 
 .book-container {
+  position: relative;
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
   padding: 180px 320px;
   pointer-events: auto;
 }
@@ -18,6 +20,5 @@
   height: 750px;
   box-sizing: border-box;
   overflow: hidden;
-
 }
 

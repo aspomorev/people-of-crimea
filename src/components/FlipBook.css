@@ -1,0 +1,49 @@
+.book.flip-book .page {
+  width: 600px;
+  text-align: justify;
+  font-size: 20px;
+  font-family: "Tenor Sans", sans-serif;
+  color: rgb(114, 70, 42);
+  line-height: 1.5;
+}
+
+.book.flip-book .book-page-content img {
+  max-width: 100%;
+}
+
+.flip-book-nav {
+  position: absolute;
+  bottom: 70px;
+  z-index: 5;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.flip-book-nav--prev {
+  left: 310;
+}
+
+.flip-book-nav--next {
+  right: 310px;
+}
+
+.flip-book-nav:disabled {
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
+}
+
+.flip-book-nav-image {
+  display: block;
+  width: 110px;
+  height: auto;
+  max-height: 110px;
+  object-fit: contain;
+}
+
+.flip-book-nav--prev .flip-book-nav-image {
+  transform: scaleX(-1);
+}

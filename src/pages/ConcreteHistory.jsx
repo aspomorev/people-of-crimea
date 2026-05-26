@@ -47,18 +47,18 @@ function ConcreteHistory() {
 
   const page2Content = chapterTitles.length > 0 ? (
     <ul className="history-chapters-list">
-      {chapterTitles.map(({ order, title }) => (
-        <li key={order} className="history-chapters-item" onClick={() => navigate(`/concrete-history/${peopleName}/${order}`)}>
+      {chapterTitles.map(({ title }) => (
+        <li key={title} className="history-chapters-item" onClick={() => navigate(`/concrete-history/${encodeURIComponent(peopleName)}/${encodeURIComponent(title)}`)}>
           {title}
         </li>
       ))}
     </ul>
-  ) : <div className="people-name">Необходимо добавить главы для "{peopleName}"</div>
+  ) : <div className="people-name">Необходимо добавить главы для "{peopleName}" в "src\assets\6-concrete-history\data\{peopleName}\"</div>
 
   return (
     <section className="concrete-history-page">
       <DivImage src={titleImage} />
-      <Book page1Content={page1Content} page2Content={page2Content} />
+      <Book pageType="first" page1Content={page1Content} page2Content={page2Content} />
       <Absolute fromCenter top={160} left={150} className="concrete-history-back">
         <BackButton />
       </Absolute>
