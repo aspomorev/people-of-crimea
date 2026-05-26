@@ -1,60 +1,67 @@
 import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
-import PageTextTitle from '../components/PageTextTitle'
-import PanelScroll from '../components/PanelScroll'
-import DivImage from '../components/DivImage'
-import parchmentBackground from '../assets/Фон пергамент.png'
+import { useNavigate, useParams } from 'react-router-dom'
 import './ConcreteHistory.css'
+import titleImage from '../assets/6-concrete-history/этнокультурный код .png'
+import DivImage from '../components/DivImage'
+import BackButton from '../components/BackButton'
+import Absolute from '../components/Absolute'
+import Book from '../components/Book'
 
-const historyHtmlModules = import.meta.glob('../assets/5-concrete-history/data/*.html', {
+const historyHtmlModules = import.meta.glob('../assets/6-concrete-history/data/*/*.html', {
   eager: true,
   query: '?raw',
   import: 'default',
 })
 
-const historyHtmlByPeople = Object.entries(historyHtmlModules).reduce((acc, [path, html]) => {
-  const peopleName = path.split('/').pop()?.replace(/\.[^/.]+$/, '') ?? ''
+function getChapterTitlesForPeople(peopleName) {
+  return Object.keys(historyHtmlModules)
+    .map((path) => {
+      const folderMatch = path.match(/\/data\/([^/]+)\//)
+      if (folderMatch?.[1] !== peopleName) {
+        return null
+      }
 
-  if (peopleName) {
-    acc[peopleName] = html
-  }
+      const fileName = path.split('/').pop() ?? ''
+      const match = fileName.match(/^(\d+)\s+(.+)\.html$/i)
+      if (!match) {
+        return null
+      }
 
-  return acc
-}, {})
+      return {
+        order: Number(match[1]),
+        title: match[2].trim(),
+      }
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.order - b.order)
+}
 
 function ConcreteHistory() {
+  const navigate = useNavigate()
   const { people } = useParams()
+  const peopleName = decodeURIComponent(people ?? '')
 
-  const peopleName = useMemo(() => {
-    if (!people) {
-      return ''
-    }
+  const chapterTitles = useMemo(() => getChapterTitlesForPeople(peopleName), [peopleName])
 
-    return decodeURIComponent(people)
-  }, [people])
+  const page1Content = <div className="people-name">{peopleName || `Необходимо заполнить данные для "${peopleName}"`}</div>
 
-  const historyHtml = peopleName ? historyHtmlByPeople[peopleName] : ''
+  const page2Content = chapterTitles.length > 0 ? (
+    <ul className="history-chapters-list">
+      {chapterTitles.map(({ order, title }) => (
+        <li key={order} className="history-chapters-item" onClick={() => navigate(`/concrete-history/${peopleName}/${order}`)}>
+          {title}
+        </li>
+      ))}
+    </ul>
+  ) : <div className="people-name">Необходимо добавить главы для "{peopleName}"</div>
 
   return (
     <section className="concrete-history-page">
-      <div className="concrete-history-wrap">
-        <PageTextTitle>Маршруты народов Крыма</PageTextTitle>
-        <DivImage
-          src={parchmentBackground}
-          className="concrete-history-panel"
-          width="100%"
-          height="100%"
-          style={{ backgroundSize: '100% 100%' }}
-        >
-          <PanelScroll>
-            {historyHtml ? (
-              <div dangerouslySetInnerHTML={{ __html: historyHtml }} />
-            ) : (
-              <p>Контент для «{peopleName || 'неизвестный народ'}» не найден.</p>
-            )}
-          </PanelScroll>
-        </DivImage>
-      </div>
+      <DivImage src={titleImage} />
+      <Book page1Content={page1Content} page2Content={page2Content} />
+      <Absolute fromCenter top={160} left={150} className="concrete-history-back">
+        <BackButton />
+      </Absolute>
     </section>
   )
 }

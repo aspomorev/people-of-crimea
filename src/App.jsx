@@ -14,9 +14,9 @@ function App() {
   const backgroundRoutes = [
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: false },
     { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
+    { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 

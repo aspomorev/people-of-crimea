@@ -1,0 +1,23 @@
+.book {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.book-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 180px 320px;
+  pointer-events: auto;
+}
+
+.book .page {
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+  height: 750px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+}
+
