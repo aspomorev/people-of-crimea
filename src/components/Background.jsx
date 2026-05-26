@@ -25,6 +25,7 @@ export const BACKGROUND_TYPE = {
 function Background({
   backgroundType = BACKGROUND_TYPE.MAP,
   showClouds = true,
+  isCloudsBehind = false,
   showLogos = true,
 }) {
 
@@ -43,7 +44,7 @@ function Background({
     <div className="background-content">
       <AbsoluteImage
         src={backgroundImage}
-        className={`background-image${backgroundType === BACKGROUND_TYPE.PARCHMENT ? ' background-image_parchment' : ''}`}
+        className={`background-image${isCloudsBehind ? ' background-image_parchment' : ''}`}
         width={1920}
         height={1080}
       />

@@ -74,7 +74,7 @@ function PanelScroll({ children }) {
     const observer = new ResizeObserver(() => updateThumb())
     observer.observe(viewport)
     return () => observer.disconnect()
-  }, [])
+  }, [children])
 
   useEffect(() => {
     const handleMouseMove = (event) => {
@@ -100,7 +100,7 @@ function PanelScroll({ children }) {
   }, [])
 
   return (
-    <div className="timeline-panel-scroll-wrap">
+    <div className="panel-scroll-wrap">
       <div ref={viewportRef} className="timeline-panel-scroll-viewport" onScroll={updateThumb}>
         {children}
       </div>

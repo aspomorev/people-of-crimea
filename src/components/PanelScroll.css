@@ -1,7 +1,8 @@
-.timeline-panel-scroll-wrap {
+.panel-scroll-wrap {
   position: relative;
   height: 100%;
   padding-right: 15px;
+  padding-bottom: 25px;
   box-sizing: border-box;
 }
 

@@ -20,12 +20,13 @@ function DivImage({
   left,
   right,
   bottom,
+  unsetSize = false,
   ...restProps
 }) {
   const [size, setSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
-    if (!src) {
+    if (unsetSize || !src) {
       setSize({ width: 0, height: 0 })
       return
     }
@@ -35,14 +36,14 @@ function DivImage({
       setSize({ width: image.naturalWidth, height: image.naturalHeight })
     }
     image.src = src
-  }, [src])
+  }, [src, unsetSize])
 
   const isPositioned = top != null || left != null || right != null || bottom != null
 
   const mergedStyle = useMemo(
     () => ({
-      width: width != null ? toOffset(width) : size.width ? `${size.width}px` : undefined,
-      height: height != null ? toOffset(height) : size.height ? `${size.height}px` : undefined,
+      width: width != null ? toOffset(width) : !unsetSize && size.width ? `${size.width}px` : undefined,
+      height: height != null ? toOffset(height) : !unsetSize && size.height ? `${size.height}px` : undefined,
       backgroundImage: src ? `url("${src}")` : undefined,
       ...(isPositioned && {
         position: 'absolute',
@@ -53,7 +54,7 @@ function DivImage({
       }),
       ...style,
     }),
-    [bottom, height, isPositioned, left, right, size.height, size.width, src, style, top, width],
+    [bottom, height, isPositioned, left, right, size.height, size.width, src, style, top, unsetSize, width],
   )
 
   const mergedClassName = ['div-image', className].filter(Boolean).join(' ')

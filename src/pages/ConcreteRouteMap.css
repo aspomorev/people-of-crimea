@@ -5,3 +5,18 @@
   text-align: center;
   font-weight: normal;
 }
+
+.route-map-city-marker-wrap {
+  z-index: 5;
+}
+
+.route-map-city-marker {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #22c55e;
+  cursor: pointer;
+  opacity: 0.85;
+}

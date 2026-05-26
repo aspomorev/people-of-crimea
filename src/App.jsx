@@ -6,6 +6,7 @@ import TimeLine from './pages/TimeLine'
 import ConcreteHistory from './pages/ConcreteHistory'
 import Background, { BACKGROUND_TYPE } from './components/Background'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
+import ConcreteRouteCity from './pages/ConcreteRouteCity'
 
 function App() {
   const { pathname } = useLocation()
@@ -14,12 +15,13 @@ function App() {
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: false },
-    { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
+    { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 
   const backgroundConfig = backgroundRoutes.find(({ path }) =>
-    matchPath({ path, end: path === '/' }, pathname),
+    matchPath({ path, end: true }, pathname),
   )
 
   return (
@@ -28,6 +30,7 @@ function App() {
         backgroundType={backgroundConfig?.backgroundType}
         showClouds={backgroundConfig?.showClouds}
         showLogos={backgroundConfig?.showLogos}
+        isCloudsBehind={backgroundConfig?.isCloudsBehind}
       />
       <div className="app">
         <main className="app-content">
@@ -37,6 +40,7 @@ function App() {
             <Route path="/routes" element={<RoutesPage />} />
             <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
             <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
+            <Route path="/concrete-route-map/:people/:city" element={<ConcreteRouteCity />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
