@@ -7,8 +7,20 @@
   line-height: 1.5;
 }
 
+.book.flip-book .book-page-content {
+  display: block;
+  width: 100%;
+}
+
+.book.flip-book .book-page-content .book-content {
+  text-align: justify;
+}
+
 .book.flip-book .book-page-content img {
+  display: block;
   max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .flip-book-nav {
