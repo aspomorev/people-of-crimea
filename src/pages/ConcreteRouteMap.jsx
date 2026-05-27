@@ -30,18 +30,44 @@ function getRouteImage(peopleName) {
   )
 }
 
+function normalizeLabelColor(color) {
+  if (!color) {
+    return undefined
+  }
+
+  const trimmed = color.trim()
+  if (trimmed.startsWith('0#')) {
+    return trimmed.slice(1)
+  }
+
+  return trimmed.startsWith('#') ? trimmed : `#${trimmed}`
+}
+
 function parseCoordinatesCsv(csv) {
-  const [headerLine, ...rows] = csv.trim().split('\n')
-  const headers = headerLine.split(';')
+  const [headerLine, ...rows] = csv.trim().split(/\r?\n/)
+  const headers = headerLine.split(';').map((header) => header.trim().replace(/^\ufeff/, ''))
 
   return rows.reduce((map, row) => {
-    const values = row.split(';')
+    if (!row.trim()) {
+      return map
+    }
+
+    const values = row.split(';').map((value) => value.trim())
     const city = values[headers.indexOf('city')]
     const mapX = Number(values[headers.indexOf('mapX')])
     const mapY = Number(values[headers.indexOf('mapY')])
+    const labelX = Number(values[headers.indexOf('labelX')])
+    const labelY = Number(values[headers.indexOf('labelY')])
+    const labelColor = normalizeLabelColor(values[headers.indexOf('labelColor')])
 
     if (city && Number.isFinite(mapX) && Number.isFinite(mapY)) {
-      map.set(city, { mapX, mapY })
+      map.set(city, {
+        mapX,
+        mapY,
+        labelX: Number.isFinite(labelX) ? labelX : mapX,
+        labelY: Number.isFinite(labelY) ? labelY : mapY,
+        labelColor,
+      })
     }
 
     return map
@@ -99,6 +125,9 @@ const ConcreteRouteMap = () => {
           cityName,
           mapX: coordinates.mapX,
           mapY: coordinates.mapY,
+          labelX: coordinates.labelX,
+          labelY: coordinates.labelY,
+          labelColor: coordinates.labelColor,
         }
       })
       .filter(Boolean)
@@ -108,6 +137,20 @@ const ConcreteRouteMap = () => {
     <>
       <AbsoluteImage src={mapImage} width={1920} height={1080} />
       <AbsoluteImage src={routeImage} width={1920} height={1080} />
+      {cityMarkers.map(({ cityName, mapX, mapY, labelX, labelY, labelColor }) => (
+        <Absolute
+          key={`label-${cityName}`}
+          fromCenter
+          top={labelY}
+          left={labelX}
+          className="route-map-city-label"
+          style={{ color: labelColor }}
+        >
+          <span className="route-map-city-label__text" style={{ color: labelColor }}>
+            {cityName}
+          </span>
+        </Absolute>
+      ))}
       {cityMarkers.map(({ cityName, mapX, mapY }) => (
         <Absolute key={cityName} fromCenter top={mapY} left={mapX} className="route-map-city-marker-wrap">
           <button

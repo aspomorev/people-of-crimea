@@ -6,6 +6,20 @@
   font-weight: normal;
 }
 
+.route-map-city-label {
+  z-index: 4;
+  pointer-events: none;
+  user-select: none;
+}
+
+.route-map-city-label__text {
+  display: block;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 35px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .route-map-city-marker-wrap {
   z-index: 5;
 }
@@ -16,7 +30,5 @@
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: #22c55e;
   cursor: pointer;
-  opacity: 0.85;
 }
