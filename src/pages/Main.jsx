@@ -1,9 +1,4 @@
-import timelineDefault from '../assets/1-main-page/1. НЕАКТИВ Лента времени.png'
-import timelineActive from '../assets/1-main-page/1. АКТИВ Лента времени.png'
-import routesDefault from '../assets/1-main-page/2. НЕАКТИВ Маршруты народов Крыма.png'
-import routesActive from '../assets/1-main-page/2. АКТИВ Маршруты народов Крыма.png'
-import modernDefault from '../assets/1-main-page/3. НЕАКТИВ Современная этника.png'
-import modernActive from '../assets/1-main-page/3. АКТИВ Современная этника.png'
+import mainButtons from '../assets/1-main-page/Главные кнопки.png'
 import aboutDefault from '../assets/1-main-page/НЕАКТИВ О проекте.png'
 import aboutActive from '../assets/1-main-page/АКТИВ О проекте.png'
 import galleryDefault from '../assets/1-main-page/НЕАКТИВ галерея.png'
@@ -14,11 +9,12 @@ import centerImage from '../assets/background/Этнокультурный ко�
 import Absolute from '../components/Absolute'
 import { useNavigate } from 'react-router-dom'
 import './Main.css'
+import DivImage from '../components/DivImage'
 
 const menuButtons = [
-  { id: 'timeline', defaultSrc: timelineDefault, activeSrc: timelineActive },
-  { id: 'routes', defaultSrc: routesDefault, activeSrc: routesActive },
-  { id: 'modern', defaultSrc: modernDefault, activeSrc: modernActive },
+  { id: 'timeline', title: 'Лента<br />времени', left: 234 },
+  { id: 'routes', title: 'Маршруты<br /> народов<br />Крыма', left: 577 },
+  { id: 'modern', title: 'Сорвеменная<br /> этника<br />Крыма', left: 912 },
 ]
 
 const secondaryMenuButtons = [
@@ -52,28 +48,28 @@ function Main() {
       <Absolute className="title" left="50%">
         <img src={centerImage} alt="" />
       </Absolute>
-      <div className="menu-buttons">
+      <DivImage src={mainButtons} className="menu-buttons" left="50%" bottom={245} fromCenterX fromCenterY>
         {menuButtons.map((button) => (
           <button
             key={button.id}
             type="button"
-            className="menu-button"
+            className="menu-button menu-button--main"
+            style={{ left: button.left }}
             onClick={() => handleMainMenuClick(button.id)}
           >
-            <img src={button.defaultSrc} alt="" className="main-menu-image image-default" />
-            <img src={button.activeSrc} alt="" className="main-menu-image image-active" />
+            <span dangerouslySetInnerHTML={{ __html: button.title }} />
           </button>
         ))}
-      </div>
+      </DivImage>
 
-      <div className="submenu-buttons">
+      {/* <div className="submenu-buttons">
         {secondaryMenuButtons.map((button) => (
           <button key={button.id} type="button" className="menu-button">
             <img src={button.defaultSrc} alt="" className="main-menu-image image-default" />
             <img src={button.activeSrc} alt="" className="main-menu-image image-active" />
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }
