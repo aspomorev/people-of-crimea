@@ -1,0 +1,9 @@
+.route-ready-gate {
+  position: absolute;
+  inset: 0;
+}
+
+.route-ready-gate:not(.route-ready-gate_ready) .background-content,
+.route-ready-gate:not(.route-ready-gate_ready) .app {
+  visibility: hidden;
+}
