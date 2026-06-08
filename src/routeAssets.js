@@ -12,10 +12,8 @@ import cloudImage3 from './assets/background/облако нижнее лево�
 import cloudImage4 from './assets/background/облако нижнее правое.png'
 import parchmentBackground from './assets/Фон пергамент.png'
 
-import mainButtons from './assets/1-main-page/Главные кнопки.png'
 import centerImage from './assets/background/Этнокультурный код Крыма.png'
 
-import timelineCenterImage from './assets/2-timeline/свиток ленты.png'
 import routesParchmentBg from './assets/Фон пергамент.png'
 import mapImage from './assets/3-routes/Карта Крыма.png'
 import studentImage from './assets/3-routes/студентка РЭУ.png'
@@ -47,30 +45,48 @@ const logoModules = import.meta.glob('./assets/logo/*', {
 })
 const logos = Object.values(logoModules)
 
-const ageImageModules = import.meta.glob('./assets/2-timeline/ages/*.{png,jpg,jpeg,webp,svg,gif}', {
+const mainPageImageModules = import.meta.glob('./assets/1-main-page/*.{png,jpg,jpeg,webp,svg,gif}', {
+  eager: true,
+  import: 'default',
+})
+const mainPageImages = Object.values(mainPageImageModules)
+
+const ageImageModules = import.meta.glob('./assets/2-timeline/data/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
   import: 'default',
 })
 const ageImages = Object.values(ageImageModules)
 
-const routePlateModules = import.meta.glob('./assets/3-routes/peoples/*', {
+const ageContentAssetModules = import.meta.glob('./assets/2-timeline/data/img/*.{png,jpg,jpeg,webp,gif,svg}', {
+  eager: true,
+  import: 'default',
+})
+const ageContentImages = Object.values(ageContentAssetModules)
+
+const modernEthnicityImageModules = import.meta.glob('./assets/7-modern ethnicity/data/*.{png,jpg,jpeg,webp,svg,gif}', {
+  eager: true,
+  import: 'default',
+})
+const modernEthnicityImages = Object.values(modernEthnicityImageModules)
+
+const routePlateModules = import.meta.glob('./assets/3-routes/data/*', {
   eager: true,
   import: 'default',
 })
 const routePlateImages = Object.values(routePlateModules)
 
-const routeImageModules = import.meta.glob('./assets/4-concrete-route-map/routes/**/*.{png,jpg,jpeg,webp,svg,gif}', {
+const routeImageModules = import.meta.glob('./assets/4-concrete-route-map/data/**/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
   import: 'default',
 })
 
-const cityHtmlModules = import.meta.glob('./assets/5-concrete-route-city/*/*.html', {
+const cityHtmlModules = import.meta.glob('./assets/5-concrete-route-city/data/*/*.html', {
   eager: true,
   query: '?raw',
   import: 'default',
 })
 
-const cityAssetModules = import.meta.glob('./assets/5-concrete-route-city/*/img/*.{png,jpg,jpeg,webp,gif,svg}', {
+const cityAssetModules = import.meta.glob('./assets/5-concrete-route-city/data/*/img/*.{png,jpg,jpeg,webp,gif,svg}', {
   eager: true,
   import: 'default',
 })
@@ -88,7 +104,7 @@ const chapterAssetModules = import.meta.glob('./assets/6-concrete-history/data/*
 
 const cityAssetUrlsByKey = Object.fromEntries(
   Object.entries(cityAssetModules).map(([path, url]) => {
-    const key = path.match(/\/5-concrete-route-city\/(.+)$/)?.[1] ?? ''
+    const key = path.match(/\/5-concrete-route-city\/data\/(.+)$/)?.[1] ?? ''
     return [key, url]
   }),
 )
@@ -102,6 +118,7 @@ const chapterAssetUrlsByKey = Object.fromEntries(
 
 const backgroundRoutes = [
   { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
@@ -144,14 +161,14 @@ function getRouteImage(peopleName) {
 
   return (
     matches.find(([path]) => /\/route\.[^/]+$/.test(path))?.[1]
-    ?? matches.find(([path]) => path.includes(`/routes/${peopleName}.`))?.[1]
+    ?? matches.find(([path]) => path.includes(`/data/${peopleName}.`))?.[1]
     ?? matches[0]?.[1]
   )
 }
 
 function getCityHtmlModulePath(peopleName, cityName) {
   return Object.keys(cityHtmlModules).find((path) => {
-    const match = path.match(/\/5-concrete-route-city\/([^/]+)\/([^/]+)\.html$/)
+    const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\.html$/)
     return match?.[1] === peopleName && match?.[2] === cityName
   })
 }
@@ -226,12 +243,17 @@ export function getRouteAssetUrls(pathname) {
   const urls = [...sharedUiAssets, ...getBackgroundAssetUrls(pathname)]
 
   if (matchPath({ path: '/', end: true }, pathname)) {
-    urls.push(mainButtons, centerImage)
+    urls.push(...mainPageImages, centerImage)
     return urls
   }
 
   if (matchPath({ path: '/timeline', end: true }, pathname)) {
-    urls.push(routesParchmentBg, timelineCenterImage, ...ageImages)
+    urls.push(routesParchmentBg, ...ageImages, ...ageContentImages)
+    return urls
+  }
+
+  if (matchPath({ path: '/modern-ethnicity', end: true }, pathname)) {
+    urls.push(routesParchmentBg, ...modernEthnicityImages)
     return urls
   }
 

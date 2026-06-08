@@ -3,6 +3,7 @@ import './App.css'
 import Main from './pages/Main'
 import RoutesPage from './pages/Routes'
 import TimeLine from './pages/TimeLine'
+import ModernEthnicity from './pages/ModernEthnicity'
 import ConcreteHistory from './pages/ConcreteHistory'
 import ConcreteHistoryChapter from './pages/ConcreteHistoryChapter'
 import Background, { BACKGROUND_TYPE } from './components/Background'
@@ -17,6 +18,7 @@ function App() {
 
   const backgroundRoutes = [
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
@@ -44,6 +46,7 @@ function App() {
               <Routes location={displayLocation}>
                 <Route path="/" element={<Main />} />
                 <Route path="/timeline" element={<TimeLine />} />
+                <Route path="/modern-ethnicity" element={<ModernEthnicity />} />
                 <Route path="/routes" element={<RoutesPage />} />
                 <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
                 <Route path="/concrete-history/:people/:title" element={<ConcreteHistoryChapter />} />

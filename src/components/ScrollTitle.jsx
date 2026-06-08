@@ -5,7 +5,7 @@ import './ScrollTitle.css'
 function ScrollTitle({ children }) {
   return (
     <DivImage src={emptyScrollImage} className="page-title-scroll">
-      {children}
+      <span className="page-title-scroll__text">{children}</span>
     </DivImage>
   )
 }

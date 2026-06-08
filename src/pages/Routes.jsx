@@ -8,7 +8,7 @@ import studentImage from '../assets/3-routes/студентка РЭУ.png'
 import textPlateImage from '../assets/3-routes/плашка текст.png'
 import './Routes.css'
 
-const routeImages = import.meta.glob('../assets/3-routes/peoples/*', {
+const routeImages = import.meta.glob('../assets/3-routes/data/*', {
   eager: true,
   import: 'default',
 })

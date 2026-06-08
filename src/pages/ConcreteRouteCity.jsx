@@ -6,27 +6,27 @@ import PanelScroll from '../components/PanelScroll'
 import routesParchmentBg from '../assets/Фон пергамент.png'
 import './ConcreteRouteCity.css'
 
-const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/*/*.html', {
+const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*.html', {
   eager: true,
   query: '?raw',
   import: 'default',
 })
 
-const cityAssetModules = import.meta.glob('../assets/5-concrete-route-city/*/img/*.{png,jpg,jpeg,webp,gif,svg}', {
+const cityAssetModules = import.meta.glob('../assets/5-concrete-route-city/data/*/img/*.{png,jpg,jpeg,webp,gif,svg}', {
   eager: true,
   import: 'default',
 })
 
 const cityAssetUrlsByKey = Object.fromEntries(
   Object.entries(cityAssetModules).map(([path, url]) => {
-    const key = path.match(/\/5-concrete-route-city\/(.+)$/)?.[1] ?? ''
+    const key = path.match(/\/5-concrete-route-city\/data\/(.+)$/)?.[1] ?? ''
     return [key, url]
   }),
 )
 
 function getCityHtmlModulePath(peopleName, cityName) {
   return Object.keys(cityHtmlModules).find((path) => {
-    const match = path.match(/\/5-concrete-route-city\/([^/]+)\/([^/]+)\.html$/)
+    const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\.html$/)
     return match?.[1] === peopleName && match?.[2] === cityName
   })
 }

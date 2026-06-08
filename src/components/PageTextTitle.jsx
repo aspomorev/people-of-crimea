@@ -1,5 +1,6 @@
 ﻿import BackButton from './BackButton'
 import ScrollTitle from './ScrollTitle'
+import './PageImageTitle.css'
 
 function PageTextTitle({ children }) {
   return (

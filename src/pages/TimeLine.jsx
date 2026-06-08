@@ -1,21 +1,48 @@
 import { useState } from 'react'
 import './TimeLine.css'
 import PanelScroll from '../components/PanelScroll'
-import PageImageTitle from '../components/PageImageTitle'
+import PageTextTitle from '../components/PageTextTitle'
 import DivImage from '../components/DivImage'
 import parchmentBackground from '../assets/Фон пергамент.png'
-import timelineCenterImage from '../assets/2-timeline/свиток ленты.png'
 
-const ageImageModules = import.meta.glob('../assets/2-timeline/ages/*.{png,jpg,jpeg,webp,svg,gif}', {
+const ageImageModules = import.meta.glob('../assets/2-timeline/data/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
   import: 'default',
 })
 
-const ageHtmlModules = import.meta.glob('../assets/2-timeline/ages/*.html', {
+const ageHtmlModules = import.meta.glob('../assets/2-timeline/data/*.html', {
   eager: true,
   query: '?raw',
   import: 'default',
 })
+
+const ageAssetModules = import.meta.glob('../assets/2-timeline/data/img/*.{png,jpg,jpeg,webp,gif,svg}', {
+  eager: true,
+  import: 'default',
+})
+
+const ageAssetUrlsByKey = Object.fromEntries(
+  Object.entries(ageAssetModules).map(([path, url]) => {
+    const key = path.match(/\/2-timeline\/data\/(.+)$/)?.[1] ?? ''
+    return [key, url]
+  }),
+)
+
+function withResolvedAgeAssets(html) {
+  if (!html) {
+    return html
+  }
+
+  return html.replace(
+    /(<img\b[^>]*\bsrc=["'])([^"']+)(["'])/gi,
+    (_, prefix, src, suffix) => {
+      const relativePath = src.replace(/^\.\//, '')
+      const resolvedUrl = ageAssetUrlsByKey[relativePath]
+
+      return resolvedUrl ? `${prefix}${resolvedUrl}${suffix}` : `${prefix}${src}${suffix}`
+    },
+  )
+}
 
 const ageImages = Object.entries(ageImageModules)
   .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
@@ -37,32 +64,33 @@ function TimeLine() {
   const [activeAgeImage, setActiveAgeImage] = useState(ageImages[0]?.src ?? null)
   const activeAge = ageImages.find((image) => image.src === activeAgeImage)
   const activeAgeNumber = activeAge?.name.match(/^(\d+)/)?.[1]
-  const activeAgeHtml = activeAgeNumber ? ageHtmlByNumber[activeAgeNumber] : ''
+  const activeAgeHtml = activeAgeNumber
+    ? withResolvedAgeAssets(ageHtmlByNumber[activeAgeNumber])
+    : ''
 
   return (
     <section className="timeline-page">
-      <div className="timeline-panels-wrap">
-        <PageImageTitle imageSrc={timelineCenterImage} />
-        <div className="timeline-panels-row">
+      <div className="panels-wrap">
+        <PageTextTitle>Лента времени</PageTextTitle>
+        <div className="panels-row">
           <DivImage
             src={parchmentBackground}
-            className="timeline-panel timeline-panel--left"
-            width="100%"
-            height="100%"
+            className="panel panel--left"
+            unsetSize
             style={{ backgroundSize: '100% 100%' }}
           >
             <p>Выберите эпоху</p>
-            <div className="timeline-ages-list">
+            <div className="panel-list">
               {ageImages.map((image) => (
                 <div
                   key={image.src}
-                  className={`timeline-age-item${activeAgeImage === image.src ? ' timeline-age-item--active' : ''}`}
+                  className={`panel-item${activeAgeImage === image.src ? ' panel-item--active' : ''}`}
                 >
                   <span className="timeline-age-dot" aria-hidden="true" />
                   <img
                     src={image.src}
                     alt={image.name}
-                    className={`timeline-age-image${activeAgeImage === image.src ? ' timeline-age-image--active' : ''}`}
+                    className={`panel-item-image${activeAgeImage === image.src ? ' panel-item-image--active' : ''}`}
                     onClick={() => setActiveAgeImage(image.src)}
                   />
                 </div>
@@ -71,16 +99,15 @@ function TimeLine() {
           </DivImage>
           <DivImage
             src={parchmentBackground}
-            className="timeline-panel timeline-panel--right"
-            width="100%"
-            height="100%"
+            className="panel panel--right"
+            unsetSize
             style={{ backgroundSize: '100% 100%' }}
           >
-            <PanelScroll>
+            <PanelScroll key={activeAgeNumber}>
               {activeAgeHtml ? (
-                <div dangerouslySetInnerHTML={{ __html: activeAgeHtml }} />
+                <div className="panel-content" dangerouslySetInnerHTML={{ __html: activeAgeHtml }} />
               ) : (
-                'Контент для выбранной эпохи не найден.'
+                <div className="panel-content">Контент для выбранной эпохи не найден.</div>
               )}
             </PanelScroll>
           </DivImage>

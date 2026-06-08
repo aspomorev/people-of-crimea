@@ -11,7 +11,7 @@ import DivImage from '../components/DivImage'
 import peopleNamePlateImage from '../assets/4-concrete-route-map/people-name-plate.png'
 import coordinatesCsv from '../assets/4-concrete-route-map/coordinates.csv?raw'
 
-const routeImageModules = import.meta.glob('../assets/4-concrete-route-map/routes/**/*.{png,jpg,jpeg,webp,svg,gif}', {
+const routeImageModules = import.meta.glob('../assets/4-concrete-route-map/data/**/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
   import: 'default',
 })
@@ -25,7 +25,7 @@ function getRouteImage(peopleName) {
 
   return (
     matches.find(([path]) => /\/route\.[^/]+$/.test(path))?.[1]
-    ?? matches.find(([path]) => path.includes(`/routes/${peopleName}.`))?.[1]
+    ?? matches.find(([path]) => path.includes(`/data/${peopleName}.`))?.[1]
     ?? matches[0]?.[1]
   )
 }
@@ -76,13 +76,13 @@ function parseCoordinatesCsv(csv) {
 
 const coordinatesByCity = parseCoordinatesCsv(coordinatesCsv)
 
-const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/*/*.html')
+const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*.html')
 
 function getCitiesForPeople(peopleName) {
   const cityNamesForPeople = new Set(
     Object.keys(cityHtmlModules)
       .map((path) => {
-        const match = path.match(/\/5-concrete-route-city\/([^/]+)\/([^/]+)\.html$/)
+        const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\.html$/)
         if (!match || match[1] !== peopleName) {
           return null
         }

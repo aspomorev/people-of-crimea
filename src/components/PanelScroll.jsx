@@ -68,12 +68,26 @@ function PanelScroll({ children }) {
 
   useEffect(() => {
     updateThumb()
+    const rafId = requestAnimationFrame(() => updateThumb())
+    const timeoutId = window.setTimeout(() => updateThumb(), 100)
+
     const viewport = viewportRef.current
-    if (!viewport) return
+    if (!viewport) {
+      return () => {
+        cancelAnimationFrame(rafId)
+        window.clearTimeout(timeoutId)
+      }
+    }
 
     const observer = new ResizeObserver(() => updateThumb())
     observer.observe(viewport)
-    return () => observer.disconnect()
+    Array.from(viewport.children).forEach((child) => observer.observe(child))
+
+    return () => {
+      cancelAnimationFrame(rafId)
+      window.clearTimeout(timeoutId)
+      observer.disconnect()
+    }
   }, [children])
 
   useEffect(() => {
