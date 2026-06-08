@@ -31,11 +31,12 @@
 
 .history-chapters-item {
   cursor: default;
-  transition: font-size 0.15s ease;
+  transform-origin: left center;
+  transition: transform 0.15s ease;
 }
 
 .history-chapters-item:hover {
-  font-size: calc(30px * 1.1);
+  transform: scale(1.1);
 }
 
 .history-chapter-heading {

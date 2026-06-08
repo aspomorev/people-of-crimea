@@ -1,6 +1,5 @@
 .timeline-page .page-title-scroll__text {
   font-size: 30px;
-  font-family: "Constantia";
   line-height: 1.2;
   text-align: center;
 }
@@ -16,6 +15,14 @@
   flex: 0 0 20px;
 }
 
+.timeline-page .panel-list {
+  height: 80%
+}
+
+.timeline-page .panel--left p {
+  margin: 25px;
+}
+
 .panel-item--active .timeline-age-dot::after {
   content: "";
   position: absolute;
@@ -29,40 +36,35 @@
 }
 
 .panel-content {
-  font-size: 20px;
-  font-family: "Tenor Sans";
-  color: rgb(114, 70, 42);
-  line-height: 1.498;
-  text-align: justifyLeft;
-  z-index: 31;
-  display: flex;
-  justify-content: center;
-}
-
-.panel-content .text-container {
-  flex: 1;
-  min-width: 0;
-  line-height: 1.25;
+  line-height: 1.2;
   font-size: 25px;
-  line-height: 1.2;
-  text-align: justify;
-}
-
-.panel-content .image-container {
-  margin-left: 20px;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.panel-content .image-container p {
-  margin-top: 10px;
-  font-size: 20px;
-  line-height: 1.2;
-  text-align: center;
+  justify-content: justify;
 }
 
 .panel-content img {
   max-width: 100%;
   height: auto;
 }
+
+.panel-content {
+  display: flex;
+}
+
+.panel-content .text-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-content .image-container {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.panel-content .image-container p {
+  margin-top: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+

@@ -6,7 +6,19 @@ import { paginateBookContent } from './flipBookPaginate'
 import { extractChapterTitle } from './flipBookExtractChapterTitle'
 import './FlipBook.css'
 
-function FlipBook({ content, title, className = '' }) {
+function FlipBook({
+  content,
+  title,
+  className = '',
+  hasPrevChapter = false,
+  onPrevChapter,
+  hasNextChapter = false,
+  onNextChapter,
+  canGoToContents = false,
+  onGoToContents,
+  canGoBackToContents = false,
+  openLastSpread = false,
+}) {
   const [spreadIndex, setSpreadIndex] = useState(0)
 
   const isHtmlContent = typeof content === 'string'
@@ -17,16 +29,56 @@ function FlipBook({ content, title, className = '' }) {
   const pages = isHtmlContent ? paginateBookContent(bookContent) : ['']
 
   useEffect(() => {
-    setSpreadIndex(0)
-  }, [content])
+    if (!isHtmlContent) {
+      setSpreadIndex(0)
+      return
+    }
+
+    const { content: chapterContent } = extractChapterTitle(content, title)
+    const chapterPages = paginateBookContent(chapterContent)
+    const spreadCount = Math.max(1, Math.ceil(chapterPages.length / 2))
+    setSpreadIndex(openLastSpread ? spreadCount - 1 : 0)
+  }, [content, title, openLastSpread, isHtmlContent])
 
   const leftPageIndex = spreadIndex * 2
   const rightPageIndex = leftPageIndex + 1
   const totalPages = isHtmlContent ? pages.length : 1
   const spreadCount = Math.max(1, Math.ceil(totalPages / 2))
 
-  const canGoBack = spreadIndex > 0
-  const canGoForward = spreadIndex < spreadCount - 1
+  const canGoBack = spreadIndex > 0 || hasPrevChapter || canGoBackToContents
+  const canGoForward = spreadIndex < spreadCount - 1 || hasNextChapter || canGoToContents
+
+  const handlePrev = () => {
+    if (spreadIndex > 0) {
+      setSpreadIndex((index) => index - 1)
+      return
+    }
+
+    if (hasPrevChapter) {
+      onPrevChapter?.()
+      return
+    }
+
+    if (canGoBackToContents) {
+      onGoToContents?.()
+    }
+  }
+
+  const handleNext = () => {
+    if (spreadIndex < spreadCount - 1) {
+      setSpreadIndex((index) => index + 1)
+      return
+    }
+
+    if (hasNextChapter) {
+      onNextChapter?.()
+      return
+    }
+
+    if (canGoToContents) {
+      onGoToContents?.()
+    }
+  }
 
   const page1Html = isHtmlContent ? pages[leftPageIndex] ?? '' : ''
   const page1Content = isHtmlContent
@@ -54,7 +106,7 @@ function FlipBook({ content, title, className = '' }) {
         type="button"
         className="flip-book-nav flip-book-nav--prev"
         disabled={!canGoBack}
-        onClick={() => setSpreadIndex((index) => index - 1)}
+        onClick={handlePrev}
         aria-label="Предыдущая страница"
       >
         <img src={flipNavImage} alt="" className="flip-book-nav-image" />
@@ -64,7 +116,7 @@ function FlipBook({ content, title, className = '' }) {
         type="button"
         className="flip-book-nav flip-book-nav--next"
         disabled={!canGoForward}
-        onClick={() => setSpreadIndex((index) => index + 1)}
+        onClick={handleNext}
         aria-label="Следующая страница"
       >
         <img src={flipNavImage} alt="" className="flip-book-nav-image" />

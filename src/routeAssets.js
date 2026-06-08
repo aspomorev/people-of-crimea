@@ -23,8 +23,8 @@ import routeMapImage from './assets/4-concrete-route-map/empty-map.png'
 import peopleNamePlateImage from './assets/4-concrete-route-map/people-name-plate.png'
 
 import titleImage from './assets/6-concrete-history/этнокультурный код .png'
-import defaultBookImage from './assets/книга раскрытая пустая.png'
-import firstBookImage from './assets/книга пустая стартовая.png'
+import defaultBookImage from './assets/стр 2. книга с краями.png'
+import firstBookImage from './assets/стр 1 книга с краями.png'
 import titlePlateImage from './assets/название обводка — копия.png'
 import flipNavImage from './assets/стрелка для книги.png'
 

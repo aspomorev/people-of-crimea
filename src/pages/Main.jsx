@@ -8,7 +8,7 @@ import DivImage from '../components/DivImage'
 const menuButtons = [
   { id: 'timeline', title: 'Лента<br />времени', left: 234 },
   { id: 'routes', title: 'Маршруты<br /> народов<br />Крыма', left: 577 },
-  { id: 'modern', title: 'Сорвеменная<br /> этника<br />Крыма', left: 912 },
+  { id: 'modern', title: 'Современная<br /> этника<br />Крыма', left: 912 },
 ]
 
 function Main() {
