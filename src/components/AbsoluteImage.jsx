@@ -8,6 +8,8 @@ function AbsoluteImage({
   right,
   bottom,
   fromCenter = false,
+  fromCenterX = false,
+  fromCenterY = false,
   width,
   height,
   alt,
@@ -22,6 +24,9 @@ function AbsoluteImage({
     return null
   }
 
+  const effectiveFromCenterX = fromCenterX || fromCenter
+  const effectiveFromCenterY = fromCenterY || fromCenter
+
   return (
     <Absolute
       top={top}
@@ -29,6 +34,8 @@ function AbsoluteImage({
       right={right}
       bottom={bottom}
       fromCenter={fromCenter}
+      fromCenterX={effectiveFromCenterX}
+      fromCenterY={effectiveFromCenterY}
       className={className}
       style={style}
     >

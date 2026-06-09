@@ -115,13 +115,13 @@ function PanelScroll({ children }) {
 
   return (
     <div className="panel-scroll-wrap">
-      <div ref={viewportRef} className="timeline-panel-scroll-viewport" onScroll={updateThumb}>
+      <div ref={viewportRef} className="panel-scroll-viewport" onScroll={updateThumb}>
         {children}
       </div>
       {hasOverflow ? (
         <div
           ref={trackRef}
-          className="timeline-panel-scroll-track"
+          className="panel-scroll-track"
           onMouseDown={handleTrackMouseDown}
         >
           <div

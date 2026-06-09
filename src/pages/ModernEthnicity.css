@@ -1,0 +1,25 @@
+.modern-ethnicity-page .panels-row {
+  top: 256px;
+}
+
+.modern-ethnicity-panel-list {
+  margin: 10px 5px;
+}
+
+.modern-ethnicity-page p {
+    font-size: 30px;
+}
+
+.modern-ethnicity-page .panel--left {
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-ethnicity-page .panel {
+  height: calc(1080px - 256px - 36px);
+}
+
+.modern-ethnicity-page .paged-list-items .modern-ethnicity-panel-item {
+  flex: 1 1 0;
+  min-height: 0;
+}

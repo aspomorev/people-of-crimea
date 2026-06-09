@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-.timeline-panel-scroll-viewport {
+.panel-scroll-viewport {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -15,12 +15,12 @@
   scrollbar-width: none;
 }
 
-.timeline-panel-scroll-viewport::-webkit-scrollbar {
+.panel-scroll-viewport::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-.timeline-panel-scroll-track {
+.panel-scroll-track {
   position: absolute;
   top: 0;
   right: 0;

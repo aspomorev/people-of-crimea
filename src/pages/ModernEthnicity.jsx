@@ -1,8 +1,14 @@
-import { useState } from 'react'
-import PanelScroll from '../components/PanelScroll'
+import { useState } from "react";
+import PanelScroll from "../components/PanelScroll";
 import PageTextTitle from "../components/PageTextTitle";
 import DivImage from "../components/DivImage";
 import parchmentBackground from "../assets/Фон пергамент.png";
+import ethnicityIcon from "../assets/7-modern ethnicity/этнокультурный код.png";
+import titleScrollImage from "../assets/7-modern ethnicity/Современная  этника  свиток.png";
+import listArrowDownImage from "../assets/7-modern ethnicity/стрелка вниз.png";
+import AbsoluteImage from "../components/AbsoluteImage";
+import PagedList from "../components/PagedList";
+import "./ModernEthnicity.css";
 
 const ethnicityImageModules = import.meta.glob(
   "../assets/7-modern ethnicity/data/*.{png,jpg,jpeg,webp,svg,gif}",
@@ -59,9 +65,10 @@ function ModernEthnicity() {
     : "";
 
   return (
-    <section className="timeline-page">
-      <div className="panels-wrap">
-        <PageTextTitle>Современная этника</PageTextTitle>
+    <section className="modern-ethnicity-page">
+      <div className="panels-wrap" style= {{width: '100%'}}>
+        <AbsoluteImage src={ethnicityIcon} left={'50%'} fromCenterX />
+        <AbsoluteImage src={titleScrollImage} top={80} left={'50%'} fromCenterX />
         <div className="panels-row">
           <DivImage
             src={parchmentBackground}
@@ -70,11 +77,16 @@ function ModernEthnicity() {
             style={{ backgroundSize: "100% 100%" }}
           >
             <p>Выберите народ</p>
-            <div className="panel-list">
-              {ethnicityImages.map((image) => (
+            <PagedList
+              nextSrc={listArrowDownImage}
+              itemsSrc={ethnicityImages}
+              prevAriaLabel="Показать предыдущие народы"
+              nextAriaLabel="Показать следующие народы"
+              className="modern-ethnicity-panel-list"
+              child={(image) => (
                 <div
                   key={image.src}
-                  className={`panel-item${activeEthnicityImage === image.src ? " panel-item--active" : ""}`}
+                  className={`panel-item modern-ethnicity-panel-item${activeEthnicityImage === image.src ? " panel-item--active" : ""}`}
                 >
                   <img
                     src={image.src}
@@ -83,8 +95,8 @@ function ModernEthnicity() {
                     onClick={() => setActiveEthnicityImage(image.src)}
                   />
                 </div>
-              ))}
-            </div>
+              )}
+            />
           </DivImage>
           <DivImage
             src={parchmentBackground}

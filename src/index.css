@@ -97,7 +97,7 @@ p {
   width: 100%;
 }
 
-.div-image.panel--right .timeline-panel-scroll-viewport {
+.div-image.panel--right .panel-scroll-viewport {
   flex: 1;
   min-height: 0;
   height: auto;
@@ -113,17 +113,6 @@ p {
   padding: 0 10px 20px;
   box-sizing: border-box;
   justify-content: space-between;
-}
-
-.panel-list::before {
-  content: '';
-  position: absolute;
-  left: 40px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: rgb(114, 70, 42);
-  z-index: 2;
 }
 
 .panel-item {
