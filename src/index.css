@@ -140,3 +140,32 @@ p {
 .panel-item-image--active {
   transform: scale(1.05);
 }
+
+.panel-content {
+  display: flex;
+  line-height: 1.2;
+  font-size: 25px;
+  text-align: justify;
+}
+
+.panel-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.panel-content .text-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-content .image-container {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.panel-content .image-container p {
+  margin-top: 10px;
+  font-size: 20px;
+  text-align: center;
+}
