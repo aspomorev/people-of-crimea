@@ -9,6 +9,8 @@ import ScrollTitle from '../components/ScrollTitle'
 import BackButton from '../components/BackButton'
 import DivImage from '../components/DivImage'
 import peopleNamePlateImage from '../assets/4-concrete-route-map/people-name-plate.png'
+import markerInactiveImage from '../assets/4-concrete-route-map/маркер неактивный.png'
+import markerActiveImage from '../assets/4-concrete-route-map/маркер активный.png'
 import coordinatesCsv from '../assets/4-concrete-route-map/coordinates.csv?raw'
 
 const routeImageModules = import.meta.glob('../assets/4-concrete-route-map/data/**/*.{png,jpg,jpeg,webp,svg,gif}', {
@@ -160,7 +162,16 @@ const ConcreteRouteMap = () => {
             onClick={() =>
               navigate(`/concrete-route-map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}`)
             }
-          />
+          >
+            <DivImage
+              src={markerInactiveImage}
+              className="route-map-city-marker__image route-map-city-marker__image--inactive"
+            />
+            <DivImage
+              src={markerActiveImage}
+              className="route-map-city-marker__image route-map-city-marker__image--active"
+            />
+          </button>
         </Absolute>
       ))}
       <Absolute fromCenter top={156} left={188}>

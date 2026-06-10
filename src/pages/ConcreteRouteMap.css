@@ -24,15 +24,33 @@
 }
 
 .route-map-city-marker {
-  width: 50px;
-  height: 50px;
+  position: relative;
+  display: block;
   padding: 0;
   border: none;
-  border-radius: 50%;
+  background: none;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
-.route-map-city-marker:hover {
-  transform: scale(1.1);
+.route-map-city-marker__image {
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.route-map-city-marker__image--inactive {
+  position: relative;
+  z-index: 1;
+}
+
+.route-map-city-marker__image--active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.route-map-city-marker:hover .route-map-city-marker__image--active {
+  opacity: 1;
 }
