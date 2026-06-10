@@ -24,10 +24,15 @@
 }
 
 .route-map-city-marker {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   padding: 0;
   border: none;
   border-radius: 50%;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.route-map-city-marker:hover {
+  transform: scale(1.1);
 }
