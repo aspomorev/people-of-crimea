@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PanelScroll from "../components/PanelScroll";
-import PageTextTitle from "../components/PageTextTitle";
 import DivImage from "../components/DivImage";
 import parchmentBackground from "../assets/Фон пергамент.png";
 import ethnicityIcon from "../assets/7-modern ethnicity/этнокультурный код.png";
@@ -9,6 +8,7 @@ import listArrowDownImage from "../assets/7-modern ethnicity/стрелка вн
 import AbsoluteImage from "../components/AbsoluteImage";
 import PagedList from "../components/PagedList";
 import "./ModernEthnicity.css";
+import BackButton from "../components/BackButton";
 
 const ethnicityImageModules = import.meta.glob(
   "../assets/7-modern ethnicity/data/*.{png,jpg,jpeg,webp,svg,gif}",
@@ -68,6 +68,7 @@ function ModernEthnicity() {
     <section className="modern-ethnicity-page">
       <div className="panels-wrap" style= {{width: '100%'}}>
         <AbsoluteImage src={ethnicityIcon} left={'50%'} fromCenterX />
+        <BackButton />
         <AbsoluteImage src={titleScrollImage} top={80} left={'50%'} fromCenterX />
         <div className="panels-row">
           <DivImage
