@@ -226,7 +226,7 @@ function getChapterImageUrls(peopleName, chapterTitle) {
   const rawHtml = findChapterHtml(peopleName, chapterTitle)
   const resolvedHtml = withResolvedChapterAssets(rawHtml, peopleName)
   const { content } = extractChapterTitle(resolvedHtml, chapterTitle)
-  const pages = paginateBookContent(content)
+  const { pages } = paginateBookContent(content)
 
   return pages.flatMap((pageHtml) => extractImageUrlsFromHtml(pageHtml))
 }

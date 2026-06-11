@@ -7,7 +7,10 @@ function BookChapterTitle({ children, className = '' }) {
 
   return (
     <DivImage src={titlePlateImage} className={mergedClassName}>
-      <span className="book-chapter-title__text">{children}</span>
+      <span
+        className="book-chapter-title__text"
+        dangerouslySetInnerHTML={{ __html: children }}
+      />
     </DivImage>
   )
 }
