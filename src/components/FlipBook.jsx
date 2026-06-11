@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Book from './Book'
 import BookChapterTitle from './BookChapterTitle'
-import flipNavImage from '../assets/стрелка для книги.png'
+import flipNavImage from '../assets/book/стрелка для книги.png'
 import { paginateBookContent } from './flipBookPaginate'
 import { extractChapterTitle } from './flipBookExtractChapterTitle'
 import './FlipBook.css'

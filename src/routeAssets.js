@@ -23,10 +23,11 @@ import routeMapImage from './assets/4-concrete-route-map/empty-map.png'
 import peopleNamePlateImage from './assets/4-concrete-route-map/people-name-plate.png'
 
 import titleImage from './assets/6-concrete-history/этнокультурный код .png'
-import defaultBookImage from './assets/стр 2. книга с краями.png'
-import firstBookImage from './assets/стр 1 книга с краями.png'
-import titlePlateImage from './assets/название обводка — копия.png'
-import flipNavImage from './assets/стрелка для книги.png'
+import defaultBookImage from './assets/book/стр 2. книга с краями.png'
+import firstBookImage from './assets/book/стр 1 книга с краями.png'
+import titleTopImage from './assets/book/название главы верх.png'
+import titleBottomImage from './assets/book/название главы низ.png'
+import flipNavImage from './assets/book/стрелка для книги.png'
 
 import backArrowImage from './assets/стрелка НАЗАД.png'
 import emptyScrollImage from './assets/свиток пустой.png'
@@ -290,7 +291,8 @@ export function getRouteAssetUrls(pathname) {
     urls.push(
       titleImage,
       defaultBookImage,
-      titlePlateImage,
+      titleTopImage,
+      titleBottomImage,
       flipNavImage,
       ...getChapterImageUrls(peopleName, chapterTitle),
     )

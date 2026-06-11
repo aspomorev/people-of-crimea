@@ -1,5 +1,4 @@
 .book.flip-book .page {
-  width: 600px;
   text-align: justify;
   font-size: 20px;
   font-family: "Tenor Sans", sans-serif;
@@ -25,7 +24,7 @@
 
 .flip-book-nav {
   position: absolute;
-  bottom: 70px;
+  bottom: 40px;
   z-index: 5;
   border: none;
   background: transparent;
@@ -35,11 +34,11 @@
 }
 
 .flip-book-nav--prev {
-  left: 310;
+  left: 280px;
 }
 
 .flip-book-nav--next {
-  right: 310px;
+  right: 280px;
 }
 
 .flip-book-nav:disabled {
