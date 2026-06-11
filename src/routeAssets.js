@@ -120,10 +120,10 @@ const backgroundRoutes = [
   { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
-  { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
+  { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
 ]
 
@@ -262,14 +262,14 @@ export function getRouteAssetUrls(pathname) {
     return urls
   }
 
-  const routeMapMatch = matchPath({ path: '/concrete-route-map/:people', end: true }, pathname)
+  const routeMapMatch = matchPath({ path: '/routes/map/:people', end: true }, pathname)
   if (routeMapMatch) {
     const peopleName = decodeURIComponent(routeMapMatch.params.people ?? '')
     urls.push(routeMapImage, getRouteImage(peopleName), peopleNamePlateImage)
     return urls
   }
 
-  const routeCityMatch = matchPath({ path: '/concrete-route-map/:people/:city', end: true }, pathname)
+  const routeCityMatch = matchPath({ path: '/routes/map/:people/:city', end: true }, pathname)
   if (routeCityMatch) {
     const peopleName = decodeURIComponent(routeCityMatch.params.people ?? '')
     const cityName = decodeURIComponent(routeCityMatch.params.city ?? '')
@@ -277,13 +277,13 @@ export function getRouteAssetUrls(pathname) {
     return urls
   }
 
-  const historyMatch = matchPath({ path: '/concrete-history/:people', end: true }, pathname)
+  const historyMatch = matchPath({ path: '/routes/history/:people', end: true }, pathname)
   if (historyMatch) {
     urls.push(titleImage, firstBookImage)
     return urls
   }
 
-  const chapterMatch = matchPath({ path: '/concrete-history/:people/:title', end: true }, pathname)
+  const chapterMatch = matchPath({ path: '/routes/history/:people/:title', end: true }, pathname)
   if (chapterMatch) {
     const peopleName = decodeURIComponent(chapterMatch.params.people ?? '')
     const chapterTitle = decodeURIComponent(chapterMatch.params.title ?? '')

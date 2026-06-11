@@ -160,7 +160,7 @@ const ConcreteRouteMap = () => {
             className="route-map-city-marker"
             aria-label={cityName}
             onClick={() =>
-              navigate(`/concrete-route-map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}`)
+              navigate(`/routes/map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}`)
             }
           >
             <DivImage

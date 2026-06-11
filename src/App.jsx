@@ -20,10 +20,10 @@ function App() {
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
-    { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/concrete-history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
+    { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 
@@ -48,10 +48,10 @@ function App() {
                 <Route path="/timeline" element={<TimeLine />} />
                 <Route path="/modern-ethnicity" element={<ModernEthnicity />} />
                 <Route path="/routes" element={<RoutesPage />} />
-                <Route path="/concrete-history/:people" element={<ConcreteHistory />} />
-                <Route path="/concrete-history/:people/:title" element={<ConcreteHistoryChapter />} />
-                <Route path="/concrete-route-map/:people" element={<ConcreteRouteMap />} />
-                <Route path="/concrete-route-map/:people/:city" element={<ConcreteRouteCity />} />
+                <Route path="/routes/history/:people" element={<ConcreteHistory />} />
+                <Route path="/routes/history/:people/:title" element={<ConcreteHistoryChapter />} />
+                <Route path="/routes/map/:people" element={<ConcreteRouteMap />} />
+                <Route path="/routes/map/:people/:city" element={<ConcreteRouteCity />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             ) : null}

@@ -1,18 +1,14 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { getBackPathname } from '../appRoutes'
 import './BackButton.css'
 import backArrowImage from '../assets/стрелка НАЗАД.png'
 
 function BackButton() {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+
   const handleBack = () => {
-    const historyIndex = window.history.state?.idx ?? 0
-
-    if (historyIndex > 0) {
-      navigate(-1)
-      return
-    }
-
-    navigate('/')
+    navigate(getBackPathname(pathname))
   }
 
   return (
