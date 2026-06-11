@@ -34,7 +34,7 @@
 
 .route-map-city-marker__image {
   background-repeat: no-repeat;
-  pointer-events: none;
+  pointer-events: none; 
 }
 
 .route-map-city-marker__image--inactive {
