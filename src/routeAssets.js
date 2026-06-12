@@ -4,7 +4,7 @@ import { paginateBookContent } from './components/flipBookPaginate'
 import { extractChapterTitle } from './components/flipBookExtractChapterTitle'
 import { extractImageUrlsFromHtml } from './utils/extractImageUrlsFromHtml'
 
-import defaultBackgroundImage from './assets/background/фон (Крым и море).png'
+import defaultBackgroundImage from './assets/background/фон.png'
 import bluredBackgroundImage from './assets/background/фон .png'
 import cloudImage1 from './assets/background/облако верхнее левое.png'
 import cloudImage2 from './assets/background/облако верхнее правое.png'
