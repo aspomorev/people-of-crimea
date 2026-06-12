@@ -1,6 +1,6 @@
 import DivImage from './DivImage'
-import defaultBookImage from '../assets/стр 2. книга с краями.png'
-import firstBookImage from '../assets/стр 1 книга с краями.png'
+import defaultBookImage from '../assets/book/стр 2. книга с краями.png'
+import firstBookImage from '../assets/book/стр 1 книга с краями.png'
 import './Book.css'
 
 const bookImagesByType = {

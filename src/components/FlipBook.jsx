@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Book from './Book'
 import BookChapterTitle from './BookChapterTitle'
-import flipNavImage from '../assets/стрелка для книги.png'
+import flipNavImage from '../assets/book/стрелка для книги.png'
 import { paginateBookContent } from './flipBookPaginate'
 import { extractChapterTitle } from './flipBookExtractChapterTitle'
 import './FlipBook.css'
@@ -26,7 +26,10 @@ function FlipBook({
     ? extractChapterTitle(content, title)
     : { content, title }
 
-  const pages = isHtmlContent ? paginateBookContent(bookContent) : ['']
+  const { pages, goToSpreadIndex } = useMemo(
+    () => (isHtmlContent ? paginateBookContent(bookContent) : { pages: [''], goToSpreadIndex: {} }),
+    [bookContent, isHtmlContent],
+  )
 
   useEffect(() => {
     if (!isHtmlContent) {
@@ -35,10 +38,44 @@ function FlipBook({
     }
 
     const { content: chapterContent } = extractChapterTitle(content, title)
-    const chapterPages = paginateBookContent(chapterContent)
+    const { pages: chapterPages } = paginateBookContent(chapterContent)
     const spreadCount = Math.max(1, Math.ceil(chapterPages.length / 2))
     setSpreadIndex(openLastSpread ? spreadCount - 1 : 0)
   }, [content, title, openLastSpread, isHtmlContent])
+
+  const handleBookClick = useCallback(
+    (event) => {
+      if (event.target.closest('.flip-book-nav')) {
+        return
+      }
+
+      const link = event.target.closest('[data-goto]')
+      if (!link) {
+        return
+      }
+
+      const goTo = link.getAttribute('data-goto')
+      const spread = goToSpreadIndex[goTo]
+      if (spread != null) {
+        event.preventDefault()
+        setSpreadIndex(spread)
+      }
+    },
+    [goToSpreadIndex],
+  )
+
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if (!event.target.closest('.flip-book')) {
+        return
+      }
+
+      handleBookClick(event)
+    }
+
+    document.addEventListener('click', handleDocumentClick)
+    return () => document.removeEventListener('click', handleDocumentClick)
+  }, [handleBookClick])
 
   const leftPageIndex = spreadIndex * 2
   const rightPageIndex = leftPageIndex + 1

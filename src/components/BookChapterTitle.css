@@ -1,11 +1,13 @@
 .book-chapter-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-size: 100% 100%;
-  box-sizing: border-box;
-  padding: 24px 48px;
   text-align: center;
+}
+
+.book-chapter-title__top,
+.book-chapter-title__bottom {
+  background-size: 100% 100%;
 }
 
 .book-chapter-title__text {
@@ -14,4 +16,5 @@
   color: rgb(114, 70, 42);
   line-height: 1.143;
   text-align: center;
+  padding: 0 48px;
 }

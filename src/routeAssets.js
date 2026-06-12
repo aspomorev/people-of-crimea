@@ -4,7 +4,7 @@ import { paginateBookContent } from './components/flipBookPaginate'
 import { extractChapterTitle } from './components/flipBookExtractChapterTitle'
 import { extractImageUrlsFromHtml } from './utils/extractImageUrlsFromHtml'
 
-import defaultBackgroundImage from './assets/background/фон (Крым и море).png'
+import defaultBackgroundImage from './assets/background/фон.png'
 import bluredBackgroundImage from './assets/background/фон .png'
 import cloudImage1 from './assets/background/облако верхнее левое.png'
 import cloudImage2 from './assets/background/облако верхнее правое.png'
@@ -23,10 +23,11 @@ import routeMapImage from './assets/4-concrete-route-map/empty-map.png'
 import peopleNamePlateImage from './assets/4-concrete-route-map/people-name-plate.png'
 
 import titleImage from './assets/6-concrete-history/этнокультурный код .png'
-import defaultBookImage from './assets/стр 2. книга с краями.png'
-import firstBookImage from './assets/стр 1 книга с краями.png'
-import titlePlateImage from './assets/название обводка — копия.png'
-import flipNavImage from './assets/стрелка для книги.png'
+import defaultBookImage from './assets/book/стр 2. книга с краями.png'
+import firstBookImage from './assets/book/стр 1 книга с краями.png'
+import titleTopImage from './assets/book/название главы верх.png'
+import titleBottomImage from './assets/book/название главы низ.png'
+import flipNavImage from './assets/book/стрелка для книги.png'
 
 import backArrowImage from './assets/стрелка НАЗАД.png'
 import emptyScrollImage from './assets/свиток пустой.png'
@@ -120,10 +121,10 @@ const backgroundRoutes = [
   { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-route-map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-route-map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
-  { path: '/concrete-history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/concrete-history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
+  { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+  { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
 ]
 
@@ -226,7 +227,7 @@ function getChapterImageUrls(peopleName, chapterTitle) {
   const rawHtml = findChapterHtml(peopleName, chapterTitle)
   const resolvedHtml = withResolvedChapterAssets(rawHtml, peopleName)
   const { content } = extractChapterTitle(resolvedHtml, chapterTitle)
-  const pages = paginateBookContent(content)
+  const { pages } = paginateBookContent(content)
 
   return pages.flatMap((pageHtml) => extractImageUrlsFromHtml(pageHtml))
 }
@@ -262,14 +263,14 @@ export function getRouteAssetUrls(pathname) {
     return urls
   }
 
-  const routeMapMatch = matchPath({ path: '/concrete-route-map/:people', end: true }, pathname)
+  const routeMapMatch = matchPath({ path: '/routes/map/:people', end: true }, pathname)
   if (routeMapMatch) {
     const peopleName = decodeURIComponent(routeMapMatch.params.people ?? '')
     urls.push(routeMapImage, getRouteImage(peopleName), peopleNamePlateImage)
     return urls
   }
 
-  const routeCityMatch = matchPath({ path: '/concrete-route-map/:people/:city', end: true }, pathname)
+  const routeCityMatch = matchPath({ path: '/routes/map/:people/:city', end: true }, pathname)
   if (routeCityMatch) {
     const peopleName = decodeURIComponent(routeCityMatch.params.people ?? '')
     const cityName = decodeURIComponent(routeCityMatch.params.city ?? '')
@@ -277,20 +278,21 @@ export function getRouteAssetUrls(pathname) {
     return urls
   }
 
-  const historyMatch = matchPath({ path: '/concrete-history/:people', end: true }, pathname)
+  const historyMatch = matchPath({ path: '/routes/history/:people', end: true }, pathname)
   if (historyMatch) {
     urls.push(titleImage, firstBookImage)
     return urls
   }
 
-  const chapterMatch = matchPath({ path: '/concrete-history/:people/:title', end: true }, pathname)
+  const chapterMatch = matchPath({ path: '/routes/history/:people/:title', end: true }, pathname)
   if (chapterMatch) {
     const peopleName = decodeURIComponent(chapterMatch.params.people ?? '')
     const chapterTitle = decodeURIComponent(chapterMatch.params.title ?? '')
     urls.push(
       titleImage,
       defaultBookImage,
-      titlePlateImage,
+      titleTopImage,
+      titleBottomImage,
       flipNavImage,
       ...getChapterImageUrls(peopleName, chapterTitle),
     )

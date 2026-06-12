@@ -117,7 +117,7 @@ function ConcreteHistoryChapter() {
     }
 
     navigate(
-      `/concrete-history/${encodeURIComponent(peopleName)}/${encodeURIComponent(prevChapter.title)}`,
+      `/routes/history/${encodeURIComponent(peopleName)}/${encodeURIComponent(prevChapter.title)}`,
       { state: { openLastSpread: true } },
     )
   }
@@ -127,11 +127,11 @@ function ConcreteHistoryChapter() {
       return
     }
 
-    navigate(`/concrete-history/${encodeURIComponent(peopleName)}/${encodeURIComponent(nextChapter.title)}`)
+    navigate(`/routes/history/${encodeURIComponent(peopleName)}/${encodeURIComponent(nextChapter.title)}`)
   }
 
   const handleGoToContents = () => {
-    navigate(`/concrete-history/${encodeURIComponent(peopleName)}`)
+    navigate(`/routes/history/${encodeURIComponent(peopleName)}`)
   }
 
   return (

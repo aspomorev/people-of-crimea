@@ -48,7 +48,7 @@ function ConcreteHistory() {
   const page2Content = chapterTitles.length > 0 ? (
     <ul className="history-chapters-list">
       {chapterTitles.map(({ title }) => (
-        <li key={title} className="history-chapters-item" onClick={() => navigate(`/concrete-history/${encodeURIComponent(peopleName)}/${encodeURIComponent(title)}`)}>
+        <li key={title} className="history-chapters-item" onClick={() => navigate(`/routes/history/${encodeURIComponent(peopleName)}/${encodeURIComponent(title)}`)}>
           {title}
         </li>
       ))}

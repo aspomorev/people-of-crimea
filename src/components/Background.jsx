@@ -1,6 +1,6 @@
 import "./Background.css";
 
-import defaultBackgroundImage from "../assets/background/фон (Крым и море).png";
+import defaultBackgroundImage from "../assets/background/фон.png";
 import bluredBackgroundImage from "../assets/background/фон .png";
 import cloudImage1 from "../assets/background/облако верхнее левое.png";
 import cloudImage2 from "../assets/background/облако верхнее правое.png";
