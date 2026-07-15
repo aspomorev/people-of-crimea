@@ -8,9 +8,9 @@
   justify-content: center;
 }
 
-.concrete-history-back {
-  z-index: 10;
-  pointer-events: auto;
+.concrete-history-back .back-button {
+  margin-left: -50px;
+  margin-top: 50px;
 }
 
 .people-name {
@@ -55,7 +55,7 @@
   text-decoration: underline;
   line-height: 2.071;
   margin-left: 40px;
-  cursor: pointer; 
+  cursor: pointer;
   transform-origin: left center;
   transition: transform 0.15s ease;
 }
