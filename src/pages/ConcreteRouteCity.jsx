@@ -48,15 +48,30 @@ function withResolvedCityAssets(html, peopleName) {
   )
 }
 
+function extractRouteTitle(html) {
+  const match = html.match(/<route-title>([\s\S]*?)<\/route-title>/i)
+  return match?.[1]?.trim() ?? ''
+}
+
+function stripRouteTitle(html) {
+  return html.replace(/<route-title>[\s\S]*?<\/route-title>\s*/i, '')
+}
+
 function ConcreteRouteCity() {
   const { people, city } = useParams()
   const peopleName = decodeURIComponent(people ?? '')
   const cityName = decodeURIComponent(city ?? '')
 
-  const cityHtml = useMemo(() => {
+  const { cityHtml, routeTitle } = useMemo(() => {
     const modulePath = getCityHtmlModulePath(peopleName, cityName)
     const rawHtml = modulePath ? cityHtmlModules[modulePath] : ''
-    return withResolvedCityAssets(rawHtml, peopleName)
+    const resolvedHtml = withResolvedCityAssets(rawHtml, peopleName)
+    const routeTitle = extractRouteTitle(resolvedHtml)
+
+    return {
+      cityHtml: stripRouteTitle(resolvedHtml),
+      routeTitle,
+    }
   }, [peopleName, cityName])
 
   return (
@@ -70,7 +85,11 @@ function ConcreteRouteCity() {
         >
           <div className="concrete-route-city-title">
             <p>{peopleName.toUpperCase()}</p>
-            <p>{cityName}</p>
+            {routeTitle ? (
+              <p dangerouslySetInnerHTML={{ __html: routeTitle }} />
+            ) : (
+              <p>{cityName}</p>
+            )}
           </div>
 
           <PanelScroll>
