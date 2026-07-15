@@ -11,6 +11,7 @@ import cloudImage2 from './assets/background/облако верхнее пра�
 import cloudImage3 from './assets/background/облако нижнее левое.png'
 import cloudImage4 from './assets/background/облако нижнее правое.png'
 import parchmentBackground from './assets/Фон пергамент.png'
+import routeMapBackground from './assets/background/route-map-background.png'
 
 import centerImage from './assets/background/Этнокультурный код Крыма.png'
 
@@ -38,6 +39,7 @@ const backgroundImagesByType = {
   [BACKGROUND_TYPE.MAP]: defaultBackgroundImage,
   [BACKGROUND_TYPE.BLURED_MAP]: bluredBackgroundImage,
   [BACKGROUND_TYPE.PARCHMENT]: parchmentBackground,
+  [BACKGROUND_TYPE.ROUTE_MAP]: routeMapBackground,
 }
 
 const logoModules = import.meta.glob('./assets/logo/*', {
@@ -122,7 +124,7 @@ const backgroundRoutes = [
   { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-  { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true },
+  { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.ROUTE_MAP, showClouds: true, showLogos: true },
   { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
   { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },

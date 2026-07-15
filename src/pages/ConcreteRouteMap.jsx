@@ -6,7 +6,6 @@ import Absolute from '../components/Absolute'
 import AbsoluteImage from '../components/AbsoluteImage'
 import mapImage from '../assets/4-concrete-route-map/empty-map.png'
 import ScrollTitle from '../components/ScrollTitle'
-import BackButton from '../components/BackButton'
 import DivImage from '../components/DivImage'
 import peopleNamePlateImage from '../assets/4-concrete-route-map/people-name-plate.png'
 import markerInactiveImage from '../assets/4-concrete-route-map/маркер неактивный.png'
@@ -174,9 +173,6 @@ const ConcreteRouteMap = () => {
           </button>
         </Absolute>
       ))}
-      <Absolute fromCenter top={156} left={188}>
-        <BackButton />
-      </Absolute>
       <Absolute fromCenter top={156} left={1535}>
         <ScrollTitle>Маршруты народов Крыма</ScrollTitle>
       </Absolute>

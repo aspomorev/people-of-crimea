@@ -3,8 +3,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import './ConcreteHistory.css'
 import titleImage from '../assets/6-concrete-history/этнокультурный код .png'
 import DivImage from '../components/DivImage'
-import BackButton from '../components/BackButton'
-import Absolute from '../components/Absolute'
 import FlipBook from '../components/FlipBook'
 
 const historyHtmlModules = import.meta.glob('../assets/6-concrete-history/data/*/*.html', {
@@ -149,9 +147,6 @@ function ConcreteHistoryChapter() {
         canGoBackToContents={canGoBackToContents}
         openLastSpread={openLastSpread}
       />
-      <Absolute fromCenter top={160} left={150} className="concrete-history-back">
-        <BackButton />
-      </Absolute>
     </section>
   )
 }

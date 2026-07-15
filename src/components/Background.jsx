@@ -7,26 +7,20 @@ import cloudImage2 from "../assets/background/облако верхнее пра
 import cloudImage3 from "../assets/background/облако нижнее левое.png";
 import cloudImage4 from "../assets/background/облако нижнее правое.png";
 import parchmentBackground from "../assets/Фон пергамент.png";
+import routeMapBackground from "../assets/background/route-map-background.png";
 import { useMemo } from "react";
 import AbsoluteImage from "./AbsoluteImage";
-
-const logoModules = import.meta.glob("../assets/logo/*", {
-  eager: true,
-  import: "default",
-});
-
-const logos = Object.values(logoModules);
 
 export const BACKGROUND_TYPE = {
   MAP: "map",
   BLURED_MAP: "blured_map",
   PARCHMENT: "parchment",
+  ROUTE_MAP: "route_map",
 };
 function Background({
   backgroundType = BACKGROUND_TYPE.MAP,
   showClouds = true,
   isCloudsBehind = false,
-  showLogos = true,
 }) {
 
   const backgroundImage = useMemo(() => {
@@ -37,6 +31,8 @@ function Background({
         return bluredBackgroundImage;
       case BACKGROUND_TYPE.PARCHMENT:
         return parchmentBackground;
+      case BACKGROUND_TYPE.ROUTE_MAP:
+        return routeMapBackground;
     }
   }, [backgroundType]);
 
@@ -56,18 +52,6 @@ function Background({
           <AbsoluteImage src={cloudImage4} className="cloud" bottom={0} right={0} />
         </>
       ) : null}
-
-
-      {showLogos ? <div className="background-logos" aria-hidden="true">
-        {logos.map((logoSrc) => (
-          <img
-            key={logoSrc}
-            src={logoSrc}
-            alt="logo"
-            className="main-logo-image"
-          />
-        ))}
-      </div> : null}
     </div>
   );
 }
