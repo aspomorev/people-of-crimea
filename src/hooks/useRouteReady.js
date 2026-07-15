@@ -1,28 +1,47 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getRouteAssetUrls } from '../routeAssets'
+import { getAllAssetUrls } from '../routeAssets'
 import { preloadImages } from '../utils/preloadImages'
+
+let assetsPreloadPromise = null
+
+function ensureAssetsPreloaded() {
+  if (!assetsPreloadPromise) {
+    assetsPreloadPromise = preloadImages(getAllAssetUrls())
+  }
+
+  return assetsPreloadPromise
+}
 
 export function useDeferredRouteLocation() {
   const location = useLocation()
   const [displayLocation, setDisplayLocation] = useState(null)
+  const [assetsReady, setAssetsReady] = useState(false)
 
   useEffect(() => {
     let cancelled = false
 
-    preloadImages(getRouteAssetUrls(location.pathname)).then(() => {
+    ensureAssetsPreloaded().then(() => {
       if (!cancelled) {
-        setDisplayLocation(location)
+        setAssetsReady(true)
       }
     })
 
     return () => {
       cancelled = true
     }
-  }, [location])
+  }, [])
+
+  useEffect(() => {
+    if (!assetsReady) {
+      return
+    }
+
+    setDisplayLocation(location)
+  }, [location, assetsReady])
 
   return {
     displayLocation,
-    isInitialLoading: displayLocation === null,
+    isInitialLoading: !assetsReady,
   }
 }
