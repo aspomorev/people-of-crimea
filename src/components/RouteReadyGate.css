@@ -4,6 +4,8 @@
 }
 
 .route-ready-gate:not(.route-ready-gate_ready) .background-content,
-.route-ready-gate:not(.route-ready-gate_ready) .app {
+.route-ready-gate:not(.route-ready-gate_ready) .app,
+.route-ready-gate:not(.route-ready-gate_ready) .background-logos,
+.route-ready-gate:not(.route-ready-gate_ready) .app-back-button {
   visibility: hidden;
 }

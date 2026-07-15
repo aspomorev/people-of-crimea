@@ -1,0 +1,18 @@
+.app-back-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.app-back-button .back-button {
+  position: absolute;
+  top: 30px;
+  right: 45px;
+  pointer-events: auto;
+}

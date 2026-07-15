@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './ConcreteHistory.css'
 import titleImage from '../assets/6-concrete-history/этнокультурный код .png'
 import DivImage from '../components/DivImage'
-import BackButton from '../components/BackButton'
-import Absolute from '../components/Absolute'
 import Book from '../components/Book'
 
 const historyHtmlModules = import.meta.glob('../assets/6-concrete-history/data/*/*.html', {
@@ -59,9 +57,6 @@ function ConcreteHistory() {
     <section className="concrete-history-page">
       <DivImage src={titleImage} />
       <Book pageType="first" page1Content={page1Content} page2Content={page2Content} />
-      <Absolute fromCenter top={160} left={150} className="concrete-history-back">
-        <BackButton />
-      </Absolute>
     </section>
   )
 }

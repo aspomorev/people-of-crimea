@@ -7,6 +7,8 @@ import ModernEthnicity from './pages/ModernEthnicity'
 import ConcreteHistory from './pages/ConcreteHistory'
 import ConcreteHistoryChapter from './pages/ConcreteHistoryChapter'
 import Background, { BACKGROUND_TYPE } from './components/Background'
+import BackgroundLogos from './components/BackgroundLogos'
+import AppBackButton from './components/AppBackButton'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
 import ConcreteRouteCity from './pages/ConcreteRouteCity'
 import RouteReadyGate from './components/RouteReadyGate'
@@ -17,13 +19,13 @@ function App() {
   const activePathname = displayLocation?.pathname ?? '/'
 
   const backgroundRoutes = [
-    { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: true, showLogos: true, isCloudsBehind: true },
-    { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
-    { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true },
+    { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.ROUTE_MAP, showClouds: true, showLogos: true, isCloudsBehind: true, showBackButton: true },
+    { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 
@@ -37,7 +39,6 @@ function App() {
         <Background
           backgroundType={backgroundConfig?.backgroundType}
           showClouds={backgroundConfig?.showClouds}
-          showLogos={backgroundConfig?.showLogos}
           isCloudsBehind={backgroundConfig?.isCloudsBehind}
         />
         <div className="app">
@@ -57,6 +58,8 @@ function App() {
             ) : null}
           </main>
         </div>
+        {backgroundConfig?.showLogos ? <BackgroundLogos /> : null}
+        {backgroundConfig?.showBackButton ? <AppBackButton /> : null}
       </RouteReadyGate>
     </div>
   )
