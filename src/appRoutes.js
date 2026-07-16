@@ -9,6 +9,8 @@ export const APP_ROUTE_PATHS = [
   '/routes/history/:people/:title',
   '/routes/map/:people',
   '/routes/map/:people/:city',
+  '/admin',
+  '/admin/concrete-route-map',
 ]
 
 export function isValidAppRoute(pathname) {

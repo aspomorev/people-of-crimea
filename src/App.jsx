@@ -11,12 +11,17 @@ import BackgroundLogos from './components/BackgroundLogos'
 import AppBackButton from './components/AppBackButton'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
 import ConcreteRouteCity from './pages/ConcreteRouteCity'
+import AdminMenu from './pages/admin/AdminMenu'
+import ConcreteRouteMapAdmin from './pages/admin/ConcreteRouteMapAdmin'
 import RouteReadyGate from './components/RouteReadyGate'
 import { useDeferredRouteLocation } from './hooks/useRouteReady'
 
 function App() {
   const { displayLocation, isInitialLoading } = useDeferredRouteLocation()
   const activePathname = displayLocation?.pathname ?? '/'
+  const isAdminRoute =
+    activePathname === '/admin'
+    || activePathname.startsWith('/admin/')
 
   const backgroundRoutes = [
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
@@ -29,18 +34,20 @@ function App() {
     { path: '/', backgroundType: BACKGROUND_TYPE.MAP, showClouds: true, showLogos: true },
   ]
 
-  const backgroundConfig = backgroundRoutes.find(({ path }) =>
-    matchPath({ path, end: true }, activePathname),
-  )
+  const backgroundConfig = isAdminRoute
+    ? null
+    : backgroundRoutes.find(({ path }) => matchPath({ path, end: true }, activePathname))
 
   return (
     <div className="app-shell">
       <RouteReadyGate ready={!isInitialLoading}>
-        <Background
-          backgroundType={backgroundConfig?.backgroundType}
-          showClouds={backgroundConfig?.showClouds}
-          isCloudsBehind={backgroundConfig?.isCloudsBehind}
-        />
+        {backgroundConfig ? (
+          <Background
+            backgroundType={backgroundConfig.backgroundType}
+            showClouds={backgroundConfig.showClouds}
+            isCloudsBehind={backgroundConfig.isCloudsBehind}
+          />
+        ) : null}
         <div className="app">
           <main className="app-content">
             {displayLocation ? (
@@ -53,6 +60,8 @@ function App() {
                 <Route path="/routes/history/:people/:title" element={<ConcreteHistoryChapter />} />
                 <Route path="/routes/map/:people" element={<ConcreteRouteMap />} />
                 <Route path="/routes/map/:people/:city" element={<ConcreteRouteCity />} />
+                <Route path="/admin" element={<AdminMenu />} />
+                <Route path="/admin/concrete-route-map" element={<ConcreteRouteMapAdmin />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             ) : null}

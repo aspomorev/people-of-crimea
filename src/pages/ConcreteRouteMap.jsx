@@ -109,7 +109,19 @@ function getPersonAnchor(marker) {
   }
 }
 
-function findPathCoordinates(cityA, cityB) {
+function getCityPersonAnchor(cityName) {
+  const coordinates = coordinatesByCity.get(cityName)
+  if (!coordinates) {
+    return null
+  }
+
+  return {
+    x: coordinates.mapX,
+    y: coordinates.mapY - PERSON_Y_OFFSET,
+  }
+}
+
+function findDirectPathCoordinates(cityA, cityB) {
   for (const path of pathData.paths ?? []) {
     if (path.city1 === cityA && path.city2 === cityB) {
       return path.coordinates.map(({ x, y }) => ({ x, y }))
@@ -123,15 +135,6 @@ function findPathCoordinates(cityA, cityB) {
   return null
 }
 
-function buildMovePoints(fromCity, toCity, toPos) {
-  const pathCoords = findPathCoordinates(fromCity, toCity)
-  if (!pathCoords?.length) {
-    return [toPos]
-  }
-
-  return [...pathCoords, toPos]
-}
-
 function getSegmentLength(a, b) {
   return Math.hypot(b.x - a.x, b.y - a.y)
 }
@@ -142,6 +145,400 @@ function getPolylineLength(points) {
     length += getSegmentLength(points[i - 1], points[i])
   }
   return length
+}
+
+function buildEdgePolyline(fromCity, toCity) {
+  const waypoints = findDirectPathCoordinates(fromCity, toCity)
+  const endAnchor = getCityPersonAnchor(toCity)
+  if (!waypoints || !endAnchor) {
+    return null
+  }
+
+  const startAnchor = getCityPersonAnchor(fromCity)
+  const points = startAnchor
+    ? [startAnchor, ...waypoints, endAnchor]
+    : [...waypoints, endAnchor]
+
+  return {
+    waypoints,
+    endAnchor,
+    length: getPolylineLength(points),
+  }
+}
+
+function buildPathGraph() {
+  const adjacency = new Map()
+
+  const addEdge = (fromCity, toCity) => {
+    const edge = buildEdgePolyline(fromCity, toCity)
+    if (!edge) {
+      return
+    }
+
+    if (!adjacency.has(fromCity)) {
+      adjacency.set(fromCity, [])
+    }
+
+    adjacency.get(fromCity).push({
+      to: toCity,
+      waypoints: edge.waypoints,
+      endAnchor: edge.endAnchor,
+      length: edge.length,
+    })
+  }
+
+  for (const path of pathData.paths ?? []) {
+    addEdge(path.city1, path.city2)
+    addEdge(path.city2, path.city1)
+  }
+
+  return adjacency
+}
+
+const pathGraph = buildPathGraph()
+
+function findCityRoute(fromCity, toCity, allowedCities) {
+  if (!fromCity || !toCity || fromCity === toCity) {
+    return null
+  }
+
+  if (allowedCities && (!allowedCities.has(fromCity) || !allowedCities.has(toCity))) {
+    return null
+  }
+
+  if (!pathGraph.has(fromCity)) {
+    return null
+  }
+
+  const distances = new Map([[fromCity, 0]])
+  const previous = new Map()
+  const queue = [fromCity]
+
+  while (queue.length > 0) {
+    queue.sort((a, b) => (distances.get(a) ?? Infinity) - (distances.get(b) ?? Infinity))
+    const current = queue.shift()
+    if (current === toCity) {
+      break
+    }
+
+    const currentDistance = distances.get(current) ?? Infinity
+    for (const edge of pathGraph.get(current) ?? []) {
+      if (allowedCities && !allowedCities.has(edge.to)) {
+        continue
+      }
+
+      const nextDistance = currentDistance + edge.length
+      if (nextDistance >= (distances.get(edge.to) ?? Infinity)) {
+        continue
+      }
+
+      distances.set(edge.to, nextDistance)
+      previous.set(edge.to, current)
+      if (!queue.includes(edge.to)) {
+        queue.push(edge.to)
+      }
+    }
+  }
+
+  if (!previous.has(toCity) && fromCity !== toCity) {
+    return null
+  }
+
+  const route = [toCity]
+  let cursor = toCity
+  while (cursor !== fromCity) {
+    const prev = previous.get(cursor)
+    if (!prev) {
+      return null
+    }
+    route.push(prev)
+    cursor = prev
+  }
+
+  return route.reverse()
+}
+
+function getEdgeWaypoints(fromCity, toCity) {
+  const edge = (pathGraph.get(fromCity) ?? []).find((item) => item.to === toCity)
+  return edge?.waypoints ?? null
+}
+
+function getEdgePolyline(fromCity, toCity) {
+  const startAnchor = getCityPersonAnchor(fromCity)
+  const endAnchor = getCityPersonAnchor(toCity)
+  const waypoints = getEdgeWaypoints(fromCity, toCity)
+  if (!startAnchor || !endAnchor || !waypoints) {
+    return null
+  }
+
+  return [startAnchor, ...waypoints, endAnchor]
+}
+
+function buildCityRoutePoints(fromCity, toCity, toPos, allowedCities) {
+  const cityRoute = findCityRoute(fromCity, toCity, allowedCities)
+  if (!cityRoute || cityRoute.length < 2) {
+    return null
+  }
+
+  const points = []
+
+  for (let i = 1; i < cityRoute.length; i += 1) {
+    const segmentFrom = cityRoute[i - 1]
+    const segmentTo = cityRoute[i]
+    const waypoints = getEdgeWaypoints(segmentFrom, segmentTo) ?? []
+    const isLast = i === cityRoute.length - 1
+
+    points.push(...waypoints)
+
+    if (isLast) {
+      points.push(toPos)
+    } else {
+      const midAnchor = getCityPersonAnchor(segmentTo)
+      if (midAnchor) {
+        points.push(midAnchor)
+      }
+    }
+  }
+
+  return points
+}
+
+function getDistanceAlongPolyline(points, targetDistance) {
+  return getPointAlongPolyline(points, targetDistance)
+}
+
+function projectPointOntoPolyline(point, points) {
+  if (!points?.length) {
+    return null
+  }
+
+  if (points.length === 1) {
+    return {
+      point: points[0],
+      distanceAlong: 0,
+      totalLength: 0,
+      distance: getSegmentLength(point, points[0]),
+    }
+  }
+
+  let best = null
+  let distanceAlongStart = 0
+
+  for (let i = 1; i < points.length; i += 1) {
+    const start = points[i - 1]
+    const end = points[i]
+    const segmentLength = getSegmentLength(start, end)
+    const dx = end.x - start.x
+    const dy = end.y - start.y
+
+    let t = 0
+    if (segmentLength > 0) {
+      t = ((point.x - start.x) * dx + (point.y - start.y) * dy) / (segmentLength * segmentLength)
+      t = Math.max(0, Math.min(1, t))
+    }
+
+    const projected = {
+      x: start.x + dx * t,
+      y: start.y + dy * t,
+    }
+    const distance = getSegmentLength(point, projected)
+    const distanceAlong = distanceAlongStart + segmentLength * t
+
+    if (!best || distance < best.distance) {
+      best = {
+        point: projected,
+        distanceAlong,
+        distance,
+      }
+    }
+
+    distanceAlongStart += segmentLength
+  }
+
+  return {
+    ...best,
+    totalLength: distanceAlongStart,
+  }
+}
+
+function slicePolylineForward(points, fromDistance) {
+  if (!points?.length) {
+    return []
+  }
+
+  const totalLength = getPolylineLength(points)
+  const startDistance = Math.max(0, Math.min(fromDistance, totalLength))
+  const startPoint = getDistanceAlongPolyline(points, startDistance)
+  const result = [startPoint]
+  let accrued = 0
+
+  for (let i = 1; i < points.length; i += 1) {
+    const start = points[i - 1]
+    const end = points[i]
+    const segmentLength = getSegmentLength(start, end)
+    const nextAccrued = accrued + segmentLength
+
+    if (nextAccrued > startDistance + 0.01) {
+      result.push(end)
+    }
+
+    accrued = nextAccrued
+  }
+
+  return result
+}
+
+function slicePolylineBackward(points, fromDistance) {
+  const reversed = [...points].reverse()
+  const totalLength = getPolylineLength(points)
+  const distanceFromEnd = Math.max(0, totalLength - fromDistance)
+  return slicePolylineForward(reversed, distanceFromEnd)
+}
+
+function findNearestCity(point, allowedCities, maxDistance = 40) {
+  let nearest = null
+
+  for (const cityName of pathGraph.keys()) {
+    if (allowedCities && !allowedCities.has(cityName)) {
+      continue
+    }
+
+    const anchor = getCityPersonAnchor(cityName)
+    if (!anchor) {
+      continue
+    }
+
+    const distance = getSegmentLength(point, anchor)
+    if (distance > maxDistance) {
+      continue
+    }
+
+    if (!nearest || distance < nearest.distance) {
+      nearest = { cityName, distance }
+    }
+  }
+
+  return nearest?.cityName ?? null
+}
+
+function getUniqueUndirectedEdges(allowedCities) {
+  const edges = []
+  const seen = new Set()
+
+  for (const [fromCity, neighbors] of pathGraph.entries()) {
+    if (allowedCities && !allowedCities.has(fromCity)) {
+      continue
+    }
+
+    for (const { to: toCity } of neighbors) {
+      if (allowedCities && !allowedCities.has(toCity)) {
+        continue
+      }
+
+      const key = [fromCity, toCity].sort((a, b) => a.localeCompare(b, 'ru')).join('|')
+      if (seen.has(key)) {
+        continue
+      }
+      seen.add(key)
+      edges.push([fromCity, toCity])
+    }
+  }
+
+  return edges
+}
+
+function buildMovePointsFromPosition(fromPos, toCity, toPos, allowedCities) {
+  const nearbyCity = findNearestCity(fromPos, allowedCities)
+  if (nearbyCity) {
+    if (nearbyCity === toCity) {
+      return [toPos]
+    }
+
+    return buildCityRoutePoints(nearbyCity, toCity, toPos, allowedCities) ?? [toPos]
+  }
+
+  let bestOption = null
+
+  for (const [cityA, cityB] of getUniqueUndirectedEdges(allowedCities)) {
+    const polyline = getEdgePolyline(cityA, cityB)
+    if (!polyline) {
+      continue
+    }
+
+    const projection = projectPointOntoPolyline(fromPos, polyline)
+    if (!projection || projection.distance > 80) {
+      continue
+    }
+
+    const routeViaA = cityA === toCity ? [] : buildCityRoutePoints(cityA, toCity, toPos, allowedCities)
+    const routeViaB = cityB === toCity ? [] : buildCityRoutePoints(cityB, toCity, toPos, allowedCities)
+
+    const towardA = slicePolylineBackward(polyline, projection.distanceAlong)
+    const towardB = slicePolylineForward(polyline, projection.distanceAlong)
+
+    const optionViaAPoints = [
+      ...towardA.slice(1),
+      ...(cityA === toCity ? [toPos] : (routeViaA ?? [toPos])),
+    ]
+    const optionViaBPoints = [
+      ...towardB.slice(1),
+      ...(cityB === toCity ? [toPos] : (routeViaB ?? [toPos])),
+    ]
+
+    const lengthViaA = getSegmentLength(fromPos, projection.point)
+      + getPolylineLength([projection.point, ...optionViaAPoints])
+    const lengthViaB = getSegmentLength(fromPos, projection.point)
+      + getPolylineLength([projection.point, ...optionViaBPoints])
+
+    if (routeViaA || cityA === toCity) {
+      if (!bestOption || lengthViaA < bestOption.length) {
+        bestOption = {
+          length: lengthViaA,
+          points: [projection.point, ...optionViaAPoints],
+        }
+      }
+    }
+
+    if (routeViaB || cityB === toCity) {
+      if (!bestOption || lengthViaB < bestOption.length) {
+        bestOption = {
+          length: lengthViaB,
+          points: [projection.point, ...optionViaBPoints],
+        }
+      }
+    }
+  }
+
+  if (bestOption) {
+    return bestOption.points
+  }
+
+  let nearestCity = null
+  for (const cityName of pathGraph.keys()) {
+    if (allowedCities && !allowedCities.has(cityName)) {
+      continue
+    }
+
+    const anchor = getCityPersonAnchor(cityName)
+    if (!anchor) {
+      continue
+    }
+    const distance = getSegmentLength(fromPos, anchor)
+    if (!nearestCity || distance < nearestCity.distance) {
+      nearestCity = { cityName, distance, anchor }
+    }
+  }
+
+  if (!nearestCity) {
+    return [toPos]
+  }
+
+  if (nearestCity.cityName === toCity) {
+    return [toPos]
+  }
+
+  const rest = buildCityRoutePoints(nearestCity.cityName, toCity, toPos, allowedCities)
+  return rest ? [nearestCity.anchor, ...rest] : [toPos]
 }
 
 function getPointAlongPolyline(points, distance) {
@@ -208,11 +605,18 @@ const ConcreteRouteMap = () => {
       .filter(Boolean)
   }, [peopleName])
 
+  const allowedCities = useMemo(
+    () => new Set(cityMarkers.map((marker) => marker.cityName)),
+    [cityMarkers],
+  )
+
   const [personPos, setPersonPos] = useState(null)
   const [isMoving, setIsMoving] = useState(false)
   const [facingLeft, setFacingLeft] = useState(false)
 
   const personCityNameRef = useRef(null)
+  const targetCityNameRef = useRef(null)
+  const isMovingRef = useRef(false)
   const personPosRef = useRef(null)
   const animationRef = useRef(null)
 
@@ -225,6 +629,8 @@ const ConcreteRouteMap = () => {
     const firstMarker = cityMarkers[0]
     if (!firstMarker) {
       personCityNameRef.current = null
+      targetCityNameRef.current = null
+      isMovingRef.current = false
       personPosRef.current = null
       setPersonPos(null)
       setIsMoving(false)
@@ -233,13 +639,23 @@ const ConcreteRouteMap = () => {
 
     const anchor = getPersonAnchor(firstMarker)
     personCityNameRef.current = firstMarker.cityName
+    targetCityNameRef.current = null
+    isMovingRef.current = false
     personPosRef.current = anchor
     setPersonPos(anchor)
     setIsMoving(false)
   }, [cityMarkers])
 
   const movePersonToCity = (cityName) => {
-    if (!cityName || cityName === personCityNameRef.current) {
+    if (!cityName) {
+      return
+    }
+
+    if (cityName === targetCityNameRef.current) {
+      return
+    }
+
+    if (!isMovingRef.current && cityName === personCityNameRef.current) {
       return
     }
 
@@ -250,8 +666,8 @@ const ConcreteRouteMap = () => {
     }
 
     const toPos = getPersonAnchor(targetMarker)
-    const fromCity = personCityNameRef.current
-    const routePoints = [fromPos, ...buildMovePoints(fromCity, cityName, toPos)]
+    const routeTail = buildMovePointsFromPosition(fromPos, cityName, toPos, allowedCities)
+    const routePoints = [fromPos, ...routeTail]
     const totalLength = getPolylineLength(routePoints)
     const duration = Math.max(250, (totalLength / PERSON_MOVE_SPEED) * 1000)
 
@@ -260,7 +676,8 @@ const ConcreteRouteMap = () => {
       animationRef.current = null
     }
 
-    personCityNameRef.current = cityName
+    targetCityNameRef.current = cityName
+    isMovingRef.current = true
     setFacingLeft(toPos.x < fromPos.x)
     setIsMoving(true)
 
@@ -269,6 +686,11 @@ const ConcreteRouteMap = () => {
     const tick = (now) => {
       const progress = Math.min(1, (now - startedAt) / duration)
       const nextPos = getPointAlongPolyline(routePoints, totalLength * progress)
+      const prevPos = personPosRef.current
+
+      if (prevPos && Math.abs(nextPos.x - prevPos.x) > 0.5) {
+        setFacingLeft(nextPos.x < prevPos.x)
+      }
 
       personPosRef.current = nextPos
       setPersonPos(nextPos)
@@ -280,6 +702,9 @@ const ConcreteRouteMap = () => {
 
       animationRef.current = null
       personPosRef.current = toPos
+      personCityNameRef.current = cityName
+      targetCityNameRef.current = null
+      isMovingRef.current = false
       setPersonPos(toPos)
       setIsMoving(false)
     }
