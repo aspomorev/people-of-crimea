@@ -34,7 +34,7 @@
 
 .route-map-city-marker__image {
   background-repeat: no-repeat;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .route-map-city-marker__image--inactive {
@@ -51,6 +51,21 @@
   transition: opacity 0.3s ease;
 }
 
+.route-map-city-marker-wrap:hover .route-map-city-marker__image--active,
 .route-map-city-marker:hover .route-map-city-marker__image--active {
   opacity: 1;
+}
+
+.route-map-person {
+  z-index: 6;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+}
+
+.route-map-person__image {
+  background-repeat: no-repeat;
+}
+
+.route-map-person_facing-left .route-map-person__image {
+  transform: scaleX(-1);
 }
