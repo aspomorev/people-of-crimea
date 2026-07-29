@@ -1,14 +1,13 @@
 .concrete-route-city-page {
-  position: relative;
   width: 100%;
   height: 100%;
-}
-
-.concrete-route-city-detail-wrap {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+}
+
+.concrete-route-city-page .scroll-text {
+  padding: 90px 120px;
+  font-size:15px;
 }
 
 .concrete-route-city-container {
@@ -106,4 +105,26 @@
 
 .concrete-route-city-content td {
   vertical-align: top;
+}
+
+.concrete-route-city-landmarks {
+  padding-right: 25px;
+  margin: 110px 580px 300px 188px;
+}
+
+.concrete-route-city-scroll-text {
+  margin-bottom: 32px;
+  font-size: 25px;
+  font-family: "Tenor Sans", sans-serif;
+  color: rgb(114, 70, 42);
+  line-height: 1.2;
+  text-align: justify;
+}
+
+.concrete-route-city-landmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 0;
+  width: 100%;
+  justify-content: center;
 }

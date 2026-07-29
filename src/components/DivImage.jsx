@@ -33,12 +33,15 @@ function DivImage({
   left,
   right,
   bottom,
+  fromCenter = false,
   fromCenterX = false,
   fromCenterY = false,
   unsetSize = false,
   ...restProps
 }) {
   const [size, setSize] = useState({ width: 0, height: 0 })
+  const effectiveFromCenterX = fromCenterX || fromCenter
+  const effectiveFromCenterY = fromCenterY || fromCenter
 
   useEffect(() => {
     if (unsetSize || !src) {
@@ -56,7 +59,7 @@ function DivImage({
   const isPositioned = top != null || left != null || right != null || bottom != null
 
   const mergedStyle = useMemo(() => {
-    const transform = buildFromCenterTransform(top, left, right, bottom, fromCenterX, fromCenterY)
+    const transform = buildFromCenterTransform(top, left, right, bottom, effectiveFromCenterX, effectiveFromCenterY)
 
     return {
       width: width != null ? toOffset(width) : !unsetSize && size.width ? `${size.width}px` : undefined,
@@ -74,8 +77,8 @@ function DivImage({
     }
   }, [
     bottom,
-    fromCenterX,
-    fromCenterY,
+    effectiveFromCenterX,
+    effectiveFromCenterY,
     height,
     isPositioned,
     left,
@@ -91,8 +94,8 @@ function DivImage({
 
   const mergedClassName = [
     'div-image',
-    fromCenterX && 'div-image_from-center-x',
-    fromCenterY && 'div-image_from-center-y',
+    effectiveFromCenterX && 'div-image_from-center-x',
+    effectiveFromCenterY && 'div-image_from-center-y',
     className,
   ]
     .filter(Boolean)

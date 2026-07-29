@@ -84,20 +84,24 @@ function parseCoordinatesCsv(csv) {
 const coordinatesByCity = parseCoordinatesCsv(coordinatesCsv)
 
 const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*.html')
+const cityLandmarkModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*/*/content.html')
 
 function getCitiesForPeople(peopleName) {
-  const cityNamesForPeople = new Set(
-    Object.keys(cityHtmlModules)
-      .map((path) => {
-        const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\.html$/)
-        if (!match || match[1] !== peopleName) {
-          return null
-        }
+  const cityNamesForPeople = new Set()
 
-        return match[2]
-      })
-      .filter(Boolean),
-  )
+  for (const path of Object.keys(cityHtmlModules)) {
+    const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\.html$/)
+    if (match?.[1] === peopleName) {
+      cityNamesForPeople.add(match[2])
+    }
+  }
+
+  for (const path of Object.keys(cityLandmarkModules)) {
+    const match = path.match(/\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\/[^/]+\/content\.html$/)
+    if (match?.[1] === peopleName) {
+      cityNamesForPeople.add(match[2])
+    }
+  }
 
   return [...coordinatesByCity.keys()].filter((city) => cityNamesForPeople.has(city))
 }

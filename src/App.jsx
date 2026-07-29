@@ -27,7 +27,7 @@ function App() {
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
-    { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
     { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.ROUTE_MAP, showClouds: true, showLogos: true, isCloudsBehind: true, showBackButton: true },
     { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/routes/history/:people/:title', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
