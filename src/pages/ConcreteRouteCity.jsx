@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Absolute from "../components/Absolute";
 import AbsoluteImage from "../components/AbsoluteImage";
 import DivImage from "../components/DivImage";
@@ -180,6 +180,7 @@ function withResolvedCityAssets(html, peopleName) {
 }
 
 function ConcreteRouteCity() {
+  const navigate = useNavigate();
   const { people, city } = useParams();
   const peopleName = decodeURIComponent(people ?? "");
   const cityName = decodeURIComponent(city ?? "");
@@ -247,7 +248,18 @@ function ConcreteRouteCity() {
         <div className="concrete-route-city-landmarks">
           <div className="concrete-route-city-landmarks-grid">
             {pageData.landmarks.map(({ folderName, title, iconUrl }) => (
-              <LandmarkPlate key={folderName} name={title} imageSrc={iconUrl} />
+              <button
+                key={folderName}
+                type="button"
+                className="landmark-plate-button"
+                onClick={() =>
+                  navigate(
+                    `/routes/map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}/${encodeURIComponent(folderName)}`,
+                  )
+                }
+              >
+                <LandmarkPlate name={title} imageSrc={iconUrl} />
+              </button>
             ))}
           </div>
         </div>

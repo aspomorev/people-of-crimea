@@ -1,0 +1,105 @@
+.landmark-page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.landmark-page .people-name-plate {
+  font-size:14pt;
+}
+
+.landmark-layout {
+  position: absolute;
+  left: 150px;
+  right: 60px;
+  top: 190px;
+  bottom: 100px;
+  display: flex;
+  gap: 40px;
+}
+
+.landmark-layout-column {
+  min-width: 0;
+  min-height: 0;
+}
+
+.landmark-layout-column--left {
+  width: 1050px;
+  flex: 0 0 1050px;
+  
+  font-size: 25.232px;
+  line-height: 1.2;
+}
+
+.landmark-layout-column--right {
+  padding-top: 100px;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landmark-visual-block {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.landmark-layout-column--left .panel-scroll-wrap {
+  height: 100%;
+}
+
+.landmark-content {
+  font-size: 25px;
+  line-height: 1.2;
+  color: rgb(114, 70, 42);
+  text-align: justify;
+}
+
+.landmark-image {
+  max-width: 100%;
+  max-height: calc(100% - 120px);
+  object-fit: contain;
+  display: block;
+}
+
+.landmark-image-placeholder {
+  font-size: 25px;
+  line-height: 1.2;
+  color: rgb(114, 70, 42);
+  text-align: center;
+}
+
+.landmark-divider {
+  width: 100%;
+  height: 2px;
+  margin: 16px 0 12px;
+  background-color: rgba(114, 70, 42, 0.5);
+}
+
+.landmark-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.landmark-meta-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.landmark-meta-title {
+  text-align: left;
+  font-size: 25.232px;
+  line-height: 1.2;
+  color: rgb(114, 70, 42);
+  font-family: "Tenor Sans" !important;
+}
+

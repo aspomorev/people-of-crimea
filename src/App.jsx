@@ -11,6 +11,7 @@ import BackgroundLogos from './components/BackgroundLogos'
 import AppBackButton from './components/AppBackButton'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
 import ConcreteRouteCity from './pages/ConcreteRouteCity'
+import Landmark from './pages/Landmark'
 import AdminMenu from './pages/admin/AdminMenu'
 import ConcreteRouteMapAdmin from './pages/admin/ConcreteRouteMapAdmin'
 import RouteReadyGate from './components/RouteReadyGate'
@@ -27,6 +28,7 @@ function App() {
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
+    { path: '/routes/map/:people/:city/:landmark', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
     { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
     { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.ROUTE_MAP, showClouds: true, showLogos: true, isCloudsBehind: true, showBackButton: true },
     { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
@@ -60,6 +62,7 @@ function App() {
                 <Route path="/routes/history/:people/:title" element={<ConcreteHistoryChapter />} />
                 <Route path="/routes/map/:people" element={<ConcreteRouteMap />} />
                 <Route path="/routes/map/:people/:city" element={<ConcreteRouteCity />} />
+                <Route path="/routes/map/:people/:city/:landmark" element={<Landmark />} />
                 <Route path="/admin" element={<AdminMenu />} />
                 <Route path="/admin/concrete-route-map" element={<ConcreteRouteMapAdmin />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

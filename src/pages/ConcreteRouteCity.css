@@ -139,3 +139,12 @@
   width: 100%;
   justify-content: center;
 }
+
+.landmark-plate-button {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
