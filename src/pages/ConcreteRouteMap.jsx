@@ -13,10 +13,12 @@ import markerActiveImage from '../assets/4-concrete-route-map/маркер ак�
 import personImage from '../assets/4-concrete-route-map/person.png'
 import personMoveImage from '../assets/4-concrete-route-map/person-move.gif'
 import pathData from '../assets/4-concrete-route-map/path.json'
+import constants from '../assets/constants.json'
 import coordinatesCsv from '../assets/4-concrete-route-map/coordinates.csv?raw'
 
-const PERSON_Y_OFFSET = 43
-const PERSON_MOVE_SPEED = 380
+const PERSON_X_OFFSET = constants.CONCRETE_ROUTE_MAP?.PERSON_OFFSET_X ?? 0
+const PERSON_Y_OFFSET = constants.CONCRETE_ROUTE_MAP?.PERSON_OFFSET_Y ?? 43
+const PERSON_MOVE_SPEED = constants.CONCRETE_ROUTE_MAP?.PERSON_MOVE_SPEED ?? 380
 
 const routeImageModules = import.meta.glob('../assets/4-concrete-route-map/data/**/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
@@ -108,7 +110,7 @@ function getCitiesForPeople(peopleName) {
 
 function getPersonAnchor(marker) {
   return {
-    x: marker.mapX,
+    x: marker.mapX + PERSON_X_OFFSET,
     y: marker.mapY - PERSON_Y_OFFSET,
   }
 }
@@ -120,7 +122,7 @@ function getCityPersonAnchor(cityName) {
   }
 
   return {
-    x: coordinates.mapX,
+    x: coordinates.mapX + PERSON_X_OFFSET,
     y: coordinates.mapY - PERSON_Y_OFFSET,
   }
 }

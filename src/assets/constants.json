@@ -1,0 +1,7 @@
+{
+  "CONCRETE_ROUTE_MAP": {
+    "PERSON_OFFSET_X": 0,
+    "PERSON_OFFSET_Y": 10,
+    "PERSON_MOVE_SPEED": 10
+  }
+}
