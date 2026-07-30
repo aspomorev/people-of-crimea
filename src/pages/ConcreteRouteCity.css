@@ -10,8 +10,10 @@
 }
 
 .concrete-route-city-page .scroll-text {
-  padding: 90px 120px;
-  font-size:15px;
+  padding-top: 90px;
+  padding-left: 110px;
+  font-size:20px;
+  line-height: 1.3;
 }
 
 .concrete-route-city-page .dialog-text {
