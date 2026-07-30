@@ -1,5 +1,18 @@
 * {
   box-sizing: border-box;
+  cursor: default;
+  user-select: none;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
+input,
+textarea {
+  user-select: text;
 }
 
 html,

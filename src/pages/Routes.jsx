@@ -4,7 +4,7 @@ import DivImage from '../components/DivImage'
 import AbsoluteImage from '../components/AbsoluteImage'
 import routesParchmentBg from '../assets/Фон пергамент.png'
 import mapImage from '../assets/3-routes/Карта Крыма.png'
-import studentImage from '../assets/3-routes/студентка РЭУ.png'
+import studentImage from '../assets/girl.png'
 import textPlateImage from '../assets/3-routes/плашка текст.png'
 import './Routes.css'
 

@@ -7,8 +7,9 @@ import LandmarkPlate from "../components/LandmarkPlate";
 import ScrollTitle from "../components/ScrollTitle";
 import peopleNamePlateImage from "../assets/4-concrete-route-map/people-name-plate.png";
 import "./ConcreteRouteCity.css";
-import studentImage from "../assets/3-routes/студентка РЭУ.png";
+import studentImage from "../assets/girl.png";
 import scrollImage from "../assets/5-concrete-route-city/scroll.png";
+import textPlateImage from '../assets/5-concrete-route-city/dialog-bg.png'
 
 const legacyCityHtmlModules = import.meta.glob(
   "../assets/5-concrete-route-city/data/*/*.html",
@@ -38,6 +39,14 @@ const landmarkIconModules = import.meta.glob(
 
 const peopleSettingsModules = import.meta.glob(
   "../assets/5-concrete-route-city/data/*/settings.json",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const peopleGirlModules = import.meta.glob(
+  "../assets/5-concrete-route-city/data/*/girl.png",
   {
     eager: true,
     import: "default",
@@ -131,6 +140,17 @@ function getPeopleSettings(peopleName) {
   return modulePath ? peopleSettingsModules[modulePath] : null;
 }
 
+function getPeopleGirlImage(peopleName) {
+  const modulePath = Object.keys(peopleGirlModules).find((path) => {
+    const match = path.match(
+      /\/5-concrete-route-city\/data\/([^/]+)\/girl\.png$/,
+    );
+    return match?.[1] === peopleName;
+  });
+
+  return modulePath ? peopleGirlModules[modulePath] : studentImage;
+}
+
 function getLegacyCityHtmlModulePath(peopleName, cityName) {
   return Object.keys(legacyCityHtmlModules).find((path) => {
     const match = path.match(
@@ -174,6 +194,9 @@ function ConcreteRouteCity() {
         mode: "landmarks",
         landmarks,
         scrollText: peopleSettings?.scrollText ?? "",
+        dialogText: peopleSettings?.dialogText ?? "",
+        titleText: peopleSettings?.titleText ?? cityName.toUpperCase(),
+        girlImage: getPeopleGirlImage(peopleName),
         cityHtml: "",
       };
     }
@@ -186,6 +209,9 @@ function ConcreteRouteCity() {
       mode: "legacy",
       landmarks: [],
       scrollText: peopleSettings?.scrollText ?? "",
+      dialogText: peopleSettings?.dialogText ?? "",
+      titleText: peopleSettings?.titleText ?? cityName.toUpperCase(),
+      girlImage: getPeopleGirlImage(peopleName),
       cityHtml: resolvedHtml,
     };
   }, [peopleName, cityName]);
@@ -197,14 +223,14 @@ function ConcreteRouteCity() {
       </Absolute>
       <DivImage
         src={peopleNamePlateImage}
-        className="people-name-plate"
         fromCenter
         top={290}
         left={1610}
+        className="people-name-plate"
       >
-        {cityName.toUpperCase()}
+        {pageData.titleText.toUpperCase()}
       </DivImage>
-      <AbsoluteImage src={studentImage} bottom={0} left={1030} alt="" />
+      <AbsoluteImage src={pageData.girlImage} bottom={0} left={1030} />
       <DivImage
         className="scroll-text"
         src={scrollImage}
@@ -213,6 +239,9 @@ function ConcreteRouteCity() {
         left={1610}
       >
         <div dangerouslySetInnerHTML={{ __html: pageData.scrollText }} />
+      </DivImage>
+      <DivImage src={textPlateImage} bottom={10} left={260} className="dialog-text">
+        <div dangerouslySetInnerHTML={{ __html: pageData.dialogText }} />
       </DivImage>
       {pageData.mode === "landmarks" ? (
         <div className="concrete-route-city-landmarks">

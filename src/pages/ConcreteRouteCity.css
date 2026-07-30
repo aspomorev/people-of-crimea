@@ -5,9 +5,18 @@
   inset: 0;
 }
 
+.concrete-route-city-page .people-name-plate {
+  font-size:14pt;
+}
+
 .concrete-route-city-page .scroll-text {
   padding: 90px 120px;
   font-size:15px;
+}
+
+.concrete-route-city-page .dialog-text {
+  padding: 30px;
+  font-size:20px;
 }
 
 .concrete-route-city-container {
@@ -109,7 +118,7 @@
 
 .concrete-route-city-landmarks {
   padding-right: 25px;
-  margin: 110px 580px 300px 188px;
+  margin: 90px 580px 300px 188px;
 }
 
 .concrete-route-city-scroll-text {
