@@ -782,10 +782,10 @@ const ConcreteRouteMap = () => {
           />
         </Absolute>
       ) : null}
-      <Absolute fromCenter top={156} left={1610}>
+      <Absolute fromCenter top={156} left={1550}>
         <ScrollTitle>Маршруты народов Крыма</ScrollTitle>
       </Absolute>
-      <Absolute fromCenter top={290} left={1610} >
+      <Absolute fromCenter top={290} left={1550} >
         <DivImage src={peopleNamePlateImage} className="people-name-plate">{peopleName}</DivImage>
       </Absolute>
     </>

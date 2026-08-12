@@ -120,14 +120,14 @@ function Landmark() {
 
   return (
     <section className="landmark-page">
-      <Absolute fromCenter top={156} left={1610}>
+      <Absolute fromCenter top={156} left={1550}>
         <ScrollTitle>{peopleName}</ScrollTitle>
       </Absolute>
       <DivImage
         src={peopleNamePlateImage}
         fromCenter
         top={290}
-        left={1610}
+        left={1550}
         className="people-name-plate"
       >
         {pageData.titleText.toUpperCase()}

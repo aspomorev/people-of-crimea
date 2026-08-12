@@ -219,25 +219,25 @@ function ConcreteRouteCity() {
 
   return (
     <section className="concrete-route-city-page">
-      <Absolute fromCenter top={156} left={1610}>
+      <Absolute fromCenter top={156} left={1550}>
         <ScrollTitle>{peopleName}</ScrollTitle>
       </Absolute>
       <DivImage
         src={peopleNamePlateImage}
         fromCenter
         top={290}
-        left={1610}
+        left={1550}
         className="people-name-plate"
       >
         {pageData.titleText.toUpperCase()}
       </DivImage>
-      <AbsoluteImage src={pageData.girlImage} bottom={0} left={1030} />
+      <AbsoluteImage src={pageData.girlImage} bottom={0} left={990} />
       <DivImage
         className="scroll-text"
         src={scrollImage}
         fromCenter
         bottom={410}
-        left={1610}
+        left={1550}
       >
         <div dangerouslySetInnerHTML={{ __html: pageData.scrollText }} />
       </DivImage>
