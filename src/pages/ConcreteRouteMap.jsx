@@ -573,6 +573,34 @@ function getPointAlongPolyline(points, distance) {
   return points[points.length - 1]
 }
 
+function getPersonCityStorageKey(peopleName) {
+  return `route-map-person-city:${peopleName}`
+}
+
+function readSavedPersonCity(peopleName) {
+  if (!peopleName) {
+    return null
+  }
+
+  try {
+    return sessionStorage.getItem(getPersonCityStorageKey(peopleName))
+  } catch {
+    return null
+  }
+}
+
+function savePersonCity(peopleName, cityName) {
+  if (!peopleName || !cityName) {
+    return
+  }
+
+  try {
+    sessionStorage.setItem(getPersonCityStorageKey(peopleName), cityName)
+  } catch {
+    // Ignore storage errors (private mode, quota, etc.).
+  }
+}
+
 const ConcreteRouteMap = () => {
   const navigate = useNavigate()
   const { people } = useParams()
@@ -632,8 +660,7 @@ const ConcreteRouteMap = () => {
       animationRef.current = null
     }
 
-    const firstMarker = cityMarkers[0]
-    if (!firstMarker) {
+    if (!cityMarkers.length) {
       personCityNameRef.current = null
       targetCityNameRef.current = null
       isMovingRef.current = false
@@ -643,14 +670,19 @@ const ConcreteRouteMap = () => {
       return
     }
 
-    const anchor = getPersonAnchor(firstMarker)
-    personCityNameRef.current = firstMarker.cityName
+    const savedCityName = readSavedPersonCity(peopleName)
+    const startMarker =
+      cityMarkers.find((marker) => marker.cityName === savedCityName)
+      ?? cityMarkers[0]
+
+    const anchor = getPersonAnchor(startMarker)
+    personCityNameRef.current = startMarker.cityName
     targetCityNameRef.current = null
     isMovingRef.current = false
     personPosRef.current = anchor
     setPersonPos(anchor)
     setIsMoving(false)
-  }, [cityMarkers])
+  }, [cityMarkers, peopleName])
 
   const movePersonToCity = (cityName) => {
     if (!cityName) {
@@ -711,11 +743,17 @@ const ConcreteRouteMap = () => {
       personCityNameRef.current = cityName
       targetCityNameRef.current = null
       isMovingRef.current = false
+      savePersonCity(peopleName, cityName)
       setPersonPos(toPos)
       setIsMoving(false)
     }
 
     animationRef.current = requestAnimationFrame(tick)
+  }
+
+  const openCity = (cityName) => {
+    savePersonCity(peopleName, cityName)
+    navigate(`/routes/map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}`)
   }
 
   useEffect(() => () => {
@@ -755,9 +793,7 @@ const ConcreteRouteMap = () => {
             type="button"
             className="route-map-city-marker"
             aria-label={cityName}
-            onClick={() =>
-              navigate(`/routes/map/${encodeURIComponent(peopleName)}/${encodeURIComponent(cityName)}`)
-            }
+            onClick={() => openCity(cityName)}
           >
             <DivImage
               src={markerInactiveImage}

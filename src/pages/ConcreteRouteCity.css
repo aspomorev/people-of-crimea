@@ -140,6 +140,42 @@
   justify-content: center;
 }
 
+.concrete-route-city-landmarks-grid.count-1 {
+  grid-template-columns: max-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  transform: translateX(-130px);
+}
+
+.concrete-route-city-landmarks-grid.count-1 .landmark-plate-button {
+  zoom: 2;
+}
+
+.concrete-route-city-landmarks-grid.count-2 {
+  grid-template-columns: repeat(2, max-content);
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  transform: translateX(-20px) translateY(130px);
+}
+
+.concrete-route-city-landmarks-grid.count-2 .landmark-plate-button {
+  zoom: 1.25;
+}
+
+.concrete-route-city-landmarks-grid.count-3 .landmark-plate-button:nth-child(1) {
+  transform: translateY(210px);
+}
+
+.concrete-route-city-landmarks-grid.count-3 .landmark-plate-button:nth-child(2) {
+  transform: translateY(140px);
+}
+
+.concrete-route-city-landmarks-grid.count-3 .landmark-plate-button:nth-child(3) {
+  transform: translateY(70px);
+}
+
 .landmark-plate-button {
   border: 0;
   padding: 0;

@@ -33,7 +33,7 @@
 }
 
 .landmark-layout-column--right {
-  padding-top: 100px;
+  padding-top: 30px;
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@
 
 .landmark-image {
   max-width: 100%;
-  max-height: calc(100% - 120px);
+  max-height: 420px;
   object-fit: contain;
   display: block;
 }

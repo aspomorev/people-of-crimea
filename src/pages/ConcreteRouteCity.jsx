@@ -231,7 +231,7 @@ function ConcreteRouteCity() {
       >
         {pageData.titleText.toUpperCase()}
       </DivImage>
-      <AbsoluteImage src={pageData.girlImage} bottom={0} left={990} />
+      <AbsoluteImage src={pageData.girlImage} bottom={0} left={990} style={{ zIndex: 100 }} />
       <DivImage
         className="scroll-text"
         src={scrollImage}
@@ -246,7 +246,9 @@ function ConcreteRouteCity() {
       </DivImage>
       {pageData.mode === "landmarks" ? (
         <div className="concrete-route-city-landmarks">
-          <div className="concrete-route-city-landmarks-grid">
+          <div
+            className={`concrete-route-city-landmarks-grid count-${pageData.landmarks.length}`}
+          >
             {pageData.landmarks.map(({ folderName, title, iconUrl }) => (
               <button
                 key={folderName}
