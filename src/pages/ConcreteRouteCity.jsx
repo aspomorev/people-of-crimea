@@ -45,6 +45,14 @@ const peopleSettingsModules = import.meta.glob(
   },
 );
 
+const citySettingsModules = import.meta.glob(
+  "../assets/5-concrete-route-city/data/*/*/settings.json",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
 const peopleGirlModules = import.meta.glob(
   "../assets/5-concrete-route-city/data/*/girl.png",
   {
@@ -140,6 +148,21 @@ function getPeopleSettings(peopleName) {
   return modulePath ? peopleSettingsModules[modulePath] : null;
 }
 
+function getCitySettings(peopleName, cityName) {
+  const modulePath = Object.keys(citySettingsModules).find((path) => {
+    const match = path.match(
+      /\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\/settings\.json$/,
+    );
+    return match?.[1] === peopleName && match?.[2] === cityName;
+  });
+
+  return modulePath ? citySettingsModules[modulePath] : null;
+}
+
+function getRouteCitySettings(peopleName, cityName) {
+  return getCitySettings(peopleName, cityName) ?? getPeopleSettings(peopleName);
+}
+
 function getPeopleGirlImage(peopleName) {
   const modulePath = Object.keys(peopleGirlModules).find((path) => {
     const match = path.match(
@@ -187,16 +210,16 @@ function ConcreteRouteCity() {
 
   const pageData = useMemo(() => {
     const landmarks = getLandmarksForCity(peopleName, cityName);
-    const peopleSettings = getPeopleSettings(peopleName);
+    const citySettings = getRouteCitySettings(peopleName, cityName);
     const usesFolderStructure = landmarks.length > 0;
 
     if (usesFolderStructure) {
       return {
         mode: "landmarks",
         landmarks,
-        scrollText: peopleSettings?.scrollText ?? "",
-        dialogText: peopleSettings?.dialogText ?? "",
-        titleText: peopleSettings?.titleText ?? cityName.toUpperCase(),
+        scrollText: citySettings?.scrollText ?? "",
+        dialogText: citySettings?.dialogText ?? "",
+        titleText: citySettings?.titleText ?? cityName.toUpperCase(),
         girlImage: getPeopleGirlImage(peopleName),
         cityHtml: "",
       };
@@ -209,9 +232,9 @@ function ConcreteRouteCity() {
     return {
       mode: "legacy",
       landmarks: [],
-      scrollText: peopleSettings?.scrollText ?? "",
-      dialogText: peopleSettings?.dialogText ?? "",
-      titleText: peopleSettings?.titleText ?? cityName.toUpperCase(),
+      scrollText: citySettings?.scrollText ?? "",
+      dialogText: citySettings?.dialogText ?? "",
+      titleText: citySettings?.titleText ?? cityName.toUpperCase(),
       girlImage: getPeopleGirlImage(peopleName),
       cityHtml: resolvedHtml,
     };

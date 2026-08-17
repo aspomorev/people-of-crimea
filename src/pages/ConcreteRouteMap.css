@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.route-map-title {
+  z-index: 7;
+}
+
 .route-map-city-label {
   z-index: 4;
   pointer-events: none;

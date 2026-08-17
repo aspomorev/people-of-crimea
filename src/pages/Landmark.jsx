@@ -15,6 +15,14 @@ const peopleSettingsModules = import.meta.glob(
   },
 );
 
+const citySettingsModules = import.meta.glob(
+  "../assets/5-concrete-route-city/data/*/*/settings.json",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
 const landmarkContentModules = import.meta.glob(
   "../assets/5-concrete-route-city/data/*/*/*/content.html",
   {
@@ -32,8 +40,16 @@ const landmarkImageModules = import.meta.glob(
   },
 );
 
-const landmarkSmallIconModules = import.meta.glob(
-  "../assets/5-concrete-route-city/data/*/*/*/small-icon.png",
+const landmarkSettingsModules = import.meta.glob(
+  "../assets/5-concrete-route-city/data/*/*/*/settings.json",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const landmarkTypeIconModules = import.meta.glob(
+  "../assets/5-concrete-route-city/*-icon.png",
   {
     eager: true,
     import: "default",
@@ -49,6 +65,21 @@ function getPeopleSettings(peopleName) {
   });
 
   return modulePath ? peopleSettingsModules[modulePath] : null;
+}
+
+function getCitySettings(peopleName, cityName) {
+  const modulePath = Object.keys(citySettingsModules).find((path) => {
+    const match = path.match(
+      /\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\/settings\.json$/,
+    );
+    return match?.[1] === peopleName && match?.[2] === cityName;
+  });
+
+  return modulePath ? citySettingsModules[modulePath] : null;
+}
+
+function getRouteCitySettings(peopleName, cityName) {
+  return getCitySettings(peopleName, cityName) ?? getPeopleSettings(peopleName);
 }
 
 function getLandmarkContent(peopleName, cityName, folderName) {
@@ -81,10 +112,10 @@ function getLandmarkImage(peopleName, cityName, folderName) {
   return modulePath ? landmarkImageModules[modulePath] : null;
 }
 
-function getLandmarkSmallIcon(peopleName, cityName, folderName) {
-  const modulePath = Object.keys(landmarkSmallIconModules).find((path) => {
+function getLandmarkSettings(peopleName, cityName, folderName) {
+  const modulePath = Object.keys(landmarkSettingsModules).find((path) => {
     const match = path.match(
-      /\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\/([^/]+)\/small-icon\.png$/,
+      /\/5-concrete-route-city\/data\/([^/]+)\/([^/]+)\/([^/]+)\/settings\.json$/,
     );
     return (
       match?.[1] === peopleName &&
@@ -93,7 +124,25 @@ function getLandmarkSmallIcon(peopleName, cityName, folderName) {
     );
   });
 
-  return modulePath ? landmarkSmallIconModules[modulePath] : null;
+  return modulePath ? landmarkSettingsModules[modulePath] : null;
+}
+
+function getLandmarkTypeIcon(iconType) {
+  if (!iconType) {
+    return null;
+  }
+
+  const modulePath = Object.keys(landmarkTypeIconModules).find((path) => {
+    const match = path.match(/\/5-concrete-route-city\/([^/]+)-icon\.png$/);
+    return match?.[1] === iconType;
+  });
+
+  return modulePath ? landmarkTypeIconModules[modulePath] : null;
+}
+
+function getLandmarkSmallIcon(peopleName, cityName, folderName) {
+  const landmarkSettings = getLandmarkSettings(peopleName, cityName, folderName);
+  return getLandmarkTypeIcon(landmarkSettings?.["icon-type"]);
 }
 
 function getLandmarkTitle(folderName) {
@@ -108,9 +157,9 @@ function Landmark() {
   const folderName = decodeURIComponent(landmark ?? "");
 
   const pageData = useMemo(() => {
-    const peopleSettings = getPeopleSettings(peopleName);
+    const citySettings = getRouteCitySettings(peopleName, cityName);
     return {
-      titleText: peopleSettings?.titleText ?? cityName.toUpperCase(),
+      titleText: citySettings?.titleText ?? cityName.toUpperCase(),
       contentHtml: getLandmarkContent(peopleName, cityName, folderName),
       landmarkImage: getLandmarkImage(peopleName, cityName, folderName),
       landmarkSmallIcon: getLandmarkSmallIcon(peopleName, cityName, folderName),

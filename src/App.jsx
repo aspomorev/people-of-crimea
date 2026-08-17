@@ -6,7 +6,7 @@ import TimeLine from './pages/TimeLine'
 import ModernEthnicity from './pages/ModernEthnicity'
 import ConcreteHistory from './pages/ConcreteHistory'
 import ConcreteHistoryChapter from './pages/ConcreteHistoryChapter'
-import Background, { BACKGROUND_TYPE } from './components/Background'
+import Background, { BACKGROUND_TYPE, Clouds } from './components/Background'
 import BackgroundLogos from './components/BackgroundLogos'
 import AppBackButton from './components/AppBackButton'
 import ConcreteRouteMap from './pages/ConcreteRouteMap'
@@ -28,7 +28,7 @@ function App() {
     { path: '/timeline', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/modern-ethnicity', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
     { path: '/routes', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
-    { path: '/routes/map/:people/:city/:landmark', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
+    { path: '/routes/map/:people/:city/:landmark', backgroundType:  BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
     { path: '/routes/map/:people/:city', backgroundType: BACKGROUND_TYPE.PARCHMENT, showClouds: false, showLogos: true, showBackButton: true },
     { path: '/routes/map/:people', backgroundType: BACKGROUND_TYPE.ROUTE_MAP, showClouds: true, showLogos: true, isCloudsBehind: true, showBackButton: true },
     { path: '/routes/history/:people', backgroundType: BACKGROUND_TYPE.BLURED_MAP, showClouds: true, showLogos: true, showBackButton: true },
@@ -69,6 +69,11 @@ function App() {
               </Routes>
             ) : null}
           </main>
+          {backgroundConfig?.showClouds && backgroundConfig?.isCloudsBehind ? (
+            <div className="clouds-overlay">
+              <Clouds />
+            </div>
+          ) : null}
         </div>
         {backgroundConfig?.showLogos ? <BackgroundLogos /> : null}
         {backgroundConfig?.showBackButton ? <AppBackButton /> : null}

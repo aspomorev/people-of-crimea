@@ -818,7 +818,7 @@ const ConcreteRouteMap = () => {
           />
         </Absolute>
       ) : null}
-      <Absolute fromCenter top={156} left={1550}>
+      <Absolute fromCenter top={156} left={1550} className="route-map-title">
         <ScrollTitle>Маршруты народов Крыма</ScrollTitle>
       </Absolute>
       <Absolute fromCenter top={290} left={1550} >

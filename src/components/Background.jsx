@@ -17,12 +17,23 @@ export const BACKGROUND_TYPE = {
   PARCHMENT: "parchment",
   ROUTE_MAP: "route_map",
 };
+
+export function Clouds() {
+  return (
+    <>
+      <AbsoluteImage src={cloudImage1} className="cloud" top={0} left={0} />
+      <AbsoluteImage src={cloudImage2} className="cloud" top={0} right={0} />
+      <AbsoluteImage src={cloudImage3} className="cloud" bottom={0} left={0} />
+      <AbsoluteImage src={cloudImage4} className="cloud" bottom={0} right={0} />
+    </>
+  );
+}
+
 function Background({
   backgroundType = BACKGROUND_TYPE.MAP,
   showClouds = true,
   isCloudsBehind = false,
 }) {
-
   const backgroundImage = useMemo(() => {
     switch (backgroundType) {
       case BACKGROUND_TYPE.MAP:
@@ -40,18 +51,11 @@ function Background({
     <div className="background-content">
       <AbsoluteImage
         src={backgroundImage}
-        className={`background-image${isCloudsBehind ? ' background-image_parchment' : ''}`}
+        className="background-image"
         width={1920}
         height={1080}
       />
-      {showClouds ? (
-        <>
-          <AbsoluteImage src={cloudImage1} className="cloud" top={0} left={0} />
-          <AbsoluteImage src={cloudImage2} className="cloud" top={0} right={0} />
-          <AbsoluteImage src={cloudImage3} className="cloud" bottom={0} left={0} />
-          <AbsoluteImage src={cloudImage4} className="cloud" bottom={0} right={0} />
-        </>
-      ) : null}
+      {showClouds && !isCloudsBehind ? <Clouds /> : null}
     </div>
   );
 }
