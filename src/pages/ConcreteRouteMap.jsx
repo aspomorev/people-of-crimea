@@ -9,7 +9,6 @@ import ScrollTitle from '../components/ScrollTitle'
 import DivImage from '../components/DivImage'
 import peopleNamePlateImage from '../assets/4-concrete-route-map/people-name-plate.png'
 import markerInactiveImage from '../assets/4-concrete-route-map/маркер неактивный.png'
-import markerActiveImage from '../assets/4-concrete-route-map/маркер активный.png'
 import personImage from '../assets/4-concrete-route-map/person.png'
 import personMoveImage from '../assets/4-concrete-route-map/person-move.gif'
 import pathData from '../assets/4-concrete-route-map/path.json'
@@ -19,6 +18,9 @@ import coordinatesCsv from '../assets/4-concrete-route-map/coordinates.csv?raw'
 const PERSON_X_OFFSET = constants.CONCRETE_ROUTE_MAP?.PERSON_OFFSET_X ?? 0
 const PERSON_Y_OFFSET = constants.CONCRETE_ROUTE_MAP?.PERSON_OFFSET_Y ?? 43
 const PERSON_MOVE_SPEED = constants.CONCRETE_ROUTE_MAP?.PERSON_MOVE_SPEED ?? 380
+const MARKER_ACTIVE_SCALE = constants.CONCRETE_ROUTE_MAP?.MARKER_ACTIVE_SCALE ?? 1.2
+const MARKER_OFFSET_X = constants.CONCRETE_ROUTE_MAP?.MARKER_OFFSET_X ?? 0
+const MARKER_OFFSET_Y = constants.CONCRETE_ROUTE_MAP?.MARKER_OFFSET_Y ?? 0
 
 const routeImageModules = import.meta.glob('../assets/4-concrete-route-map/data/**/*.{png,jpg,jpeg,webp,svg,gif}', {
   eager: true,
@@ -88,14 +90,14 @@ const coordinatesByCity = parseCoordinatesCsv(coordinatesCsv)
 const cityHtmlModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*.html')
 const cityLandmarkModules = import.meta.glob('../assets/5-concrete-route-city/data/*/*/*/content.html')
 const cityMarkerIconModules = import.meta.glob(
-  '../assets/5-concrete-route-city/data/*/*/{icon,icon-active}.png',
+  '../assets/5-concrete-route-city/data/*/*/icon.png',
   {
     eager: true,
     import: 'default',
   },
 )
 const peopleMarkerIconModules = import.meta.glob(
-  '../assets/5-concrete-route-city/data/*/{icon,icon-active}.png',
+  '../assets/5-concrete-route-city/data/*/icon.png',
   {
     eager: true,
     import: 'default',
@@ -112,20 +114,15 @@ function findAssetBySuffix(modules, suffix) {
   return undefined
 }
 
-function getCityMarkerImages(peopleName, cityName) {
+function getCityMarkerImage(peopleName, cityName) {
   const cityFolder = `/5-concrete-route-city/data/${peopleName}/${cityName}/`
   const peopleFolder = `/5-concrete-route-city/data/${peopleName}/`
 
-  return {
-    inactiveImage:
-      findAssetBySuffix(cityMarkerIconModules, `${cityFolder}icon.png`)
-      ?? findAssetBySuffix(peopleMarkerIconModules, `${peopleFolder}icon.png`)
-      ?? markerInactiveImage,
-    activeImage:
-      findAssetBySuffix(cityMarkerIconModules, `${cityFolder}icon-active.png`)
-      ?? findAssetBySuffix(peopleMarkerIconModules, `${peopleFolder}icon-active.png`)
-      ?? markerActiveImage,
-  }
+  return (
+    findAssetBySuffix(cityMarkerIconModules, `${cityFolder}icon.png`)
+    ?? findAssetBySuffix(peopleMarkerIconModules, `${peopleFolder}icon.png`)
+    ?? markerInactiveImage
+  )
 }
 
 function getCitiesForPeople(peopleName) {
@@ -674,7 +671,7 @@ const ConcreteRouteMap = () => {
           labelX: coordinates.labelX,
           labelY: coordinates.labelY,
           labelColor: coordinates.labelColor,
-          ...getCityMarkerImages(peopleName, cityName),
+          image: getCityMarkerImage(peopleName, cityName),
         }
       })
       .filter(Boolean)
@@ -821,13 +818,14 @@ const ConcreteRouteMap = () => {
           </span>
         </Absolute>
       ))}
-      {cityMarkers.map(({ cityName, mapX, mapY, inactiveImage, activeImage }) => (
+      {cityMarkers.map(({ cityName, mapX, mapY, image }) => (
         <Absolute
           key={cityName}
           fromCenter
-          top={mapY}
-          left={mapX}
+          top={mapY + MARKER_OFFSET_Y}
+          left={mapX + MARKER_OFFSET_X}
           className="route-map-city-marker-wrap"
+          style={{ '--marker-active-scale': MARKER_ACTIVE_SCALE }}
           onMouseEnter={() => movePersonToCity(cityName)}
         >
           <button
@@ -837,12 +835,8 @@ const ConcreteRouteMap = () => {
             onClick={() => openCity(cityName)}
           >
             <DivImage
-              src={inactiveImage}
-              className="route-map-city-marker__image route-map-city-marker__image--inactive"
-            />
-            <DivImage
-              src={activeImage}
-              className="route-map-city-marker__image route-map-city-marker__image--active"
+              src={image}
+              className="route-map-city-marker__image"
             />
           </button>
         </Absolute>
