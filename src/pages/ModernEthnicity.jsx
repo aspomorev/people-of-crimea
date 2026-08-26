@@ -4,10 +4,9 @@ import DivImage from "../components/DivImage";
 import parchmentBackground from "../assets/Фон пергамент.png";
 import ethnicityIcon from "../assets/7-modern ethnicity/этнокультурный код.png";
 import titleScrollImage from "../assets/7-modern ethnicity/Современная  этника  свиток.png";
-import listArrowDownImage from "../assets/7-modern ethnicity/стрелка вниз.png";
 import AbsoluteImage from "../components/AbsoluteImage";
-import PagedList from "../components/PagedList";
 import "./ModernEthnicity.css";
+import PageTextTitle from "../components/PageTextTitle";
 
 const ethnicityImageModules = import.meta.glob(
   "../assets/7-modern ethnicity/data/*.{png,jpg,jpeg,webp,svg,gif}",
@@ -25,6 +24,39 @@ const ethnicityHtmlModules = import.meta.glob(
     import: "default",
   },
 );
+
+const ethnicityAssetModules = import.meta.glob(
+  "../assets/7-modern ethnicity/data/img/*.{png,jpg,jpeg,webp,gif,svg}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const ethnicityAssetUrlsByKey = Object.fromEntries(
+  Object.entries(ethnicityAssetModules).map(([path, url]) => {
+    const key = path.match(/\/7-modern ethnicity\/data\/(.+)$/)?.[1] ?? "";
+    return [key, url];
+  }),
+);
+
+function withResolvedEthnicityAssets(html) {
+  if (!html) {
+    return html;
+  }
+
+  return html.replace(
+    /(<img\b[^>]*\bsrc=["'])([^"']+)(["'])/gi,
+    (_, prefix, src, suffix) => {
+      const relativePath = src.replace(/^\.\//, "");
+      const resolvedUrl = ethnicityAssetUrlsByKey[relativePath];
+
+      return resolvedUrl
+        ? `${prefix}${resolvedUrl}${suffix}`
+        : `${prefix}${src}${suffix}`;
+    },
+  );
+}
 
 const ethnicityImages = Object.entries(ethnicityImageModules)
   .sort(([pathA], [pathB]) =>
@@ -60,14 +92,13 @@ function ModernEthnicity() {
   );
   const activeEthnicityNumber = activeEthnicity?.name.match(/^(\d+)/)?.[1];
   const activeEthnicityHtml = activeEthnicityNumber
-    ? ethnicityHtmlByNumber[activeEthnicityNumber]
+    ? withResolvedEthnicityAssets(ethnicityHtmlByNumber[activeEthnicityNumber])
     : "";
 
   return (
     <section className="modern-ethnicity-page">
       <div className="panels-wrap" style= {{width: '100%'}}>
-        <AbsoluteImage src={ethnicityIcon} left={'50%'} fromCenterX />
-        <AbsoluteImage src={titleScrollImage} top={80} left={'50%'} fromCenterX />
+      <PageTextTitle>Современная этника</PageTextTitle>
         <div className="panels-row">
           <DivImage
             src={parchmentBackground}
@@ -75,14 +106,8 @@ function ModernEthnicity() {
             unsetSize
             style={{ backgroundSize: "100% 100%" }}
           >
-            <p>Выберите народ</p>
-            <PagedList
-              nextSrc={listArrowDownImage}
-              itemsSrc={ethnicityImages}
-              prevAriaLabel="Показать предыдущие народы"
-              nextAriaLabel="Показать следующие народы"
-              className="modern-ethnicity-panel-list"
-              child={(image) => (
+            <div className="panel-list modern-ethnicity-panel-list">
+              {ethnicityImages.map((image) => (
                 <div
                   key={image.src}
                   className={`panel-item modern-ethnicity-panel-item${activeEthnicityImage === image.src ? " panel-item--active" : ""}`}
@@ -94,8 +119,8 @@ function ModernEthnicity() {
                     onClick={() => setActiveEthnicityImage(image.src)}
                   />
                 </div>
-              )}
-            />
+              ))}
+            </div>
           </DivImage>
           <DivImage
             src={parchmentBackground}

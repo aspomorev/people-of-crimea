@@ -6,11 +6,15 @@
 }
 
 .modern-ethnicity-page .panels-row {
-  top: 256px;
+  top: 110px;
 }
 
 .modern-ethnicity-panel-list {
+  flex: 1;
+  min-height: 0;
   margin: 10px 5px;
+  justify-content: flex-start;
+  gap: 12px;
 }
 
 .modern-ethnicity-page p {
@@ -23,10 +27,33 @@
 }
 
 .modern-ethnicity-page .panel {
-  height: calc(1080px - 256px - 36px);
+  height: calc(1080px - 110px - 36px);
 }
 
-.modern-ethnicity-page .paged-list-items .modern-ethnicity-panel-item {
+.modern-ethnicity-panel-list .modern-ethnicity-panel-item {
   flex: 1 1 0;
   min-height: 0;
+  align-items: flex-end;
+}
+
+.modern-ethnicity-panel-list .panel-item-image {
+  align-self: flex-end;
+}
+
+.modern-ethnicity-page .panel-content {
+  display: block;
+}
+
+.modern-ethnicity-page .panel-content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.modern-ethnicity-page .panel-content img {
+  float: right;
+  width: auto;
+  height: auto;
+  max-width: 50%;
+  margin: 0 0 16px 24px;
 }
